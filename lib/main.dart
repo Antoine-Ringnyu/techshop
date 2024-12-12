@@ -49,16 +49,23 @@ class _HomePageState extends State<HomePage> {
             return const Center(child: CircularProgressIndicator());
           }
           final countries = snapshot.data!;
-          return ListView.builder(
-            itemCount: countries.length,
-            itemBuilder: ((context, index) {
-              final country = countries[index];
-              return ListTile(
-                title: Text(country['name'], style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary
-                ),),
-              );
-            }),
+          return Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.primary,
+          
+            ),
+            child: ListView.builder(
+              itemCount: countries.length,
+              itemBuilder: ((context, index) {
+                final country = countries[index];
+                return ListTile(
+                  title: Text(country['name'], style: const TextStyle(
+                    
+                  ),),
+                );
+              }),
+            ),
           );
         },
       ),
