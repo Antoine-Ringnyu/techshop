@@ -3,31 +3,43 @@ import 'package:techrx/features/auth/data/auth_service.dart';
 import 'package:techrx/features/auth/presentation/components/my_button.dart';
 import 'package:techrx/features/auth/presentation/components/my_text_field.dart';
 
-class LogInPage extends StatefulWidget {
+class RegisterPage extends StatefulWidget {
   final void Function()? togglePages;
-  const LogInPage({super.key, this.togglePages});
+  const RegisterPage({
+    super.key,
+    this.togglePages,
+  });
 
   @override
-  State<LogInPage> createState() => _LogInPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LogInPageState extends State<LogInPage> {
+class _RegisterPageState extends State<RegisterPage> {
   //get auth service
   final authService = AuthService();
 
   //text controllers
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
 
   //login button pressed
-  void login() async {
+  void signUp() async {
     //prepare  data
     final email = _emailController.text;
     final password = _passwordController.text;
+    final confirmPassword = _confirmPasswordController.text;
+
+    //check that passwords match
+    if (password != confirmPassword) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("Passwords don't match")));
+    }
 
     //attempt to login
     try {
-      await authService.signInWithEmailPassword(email, password);
+      await authService.signUpWithEmailPassword(email, password);
+
       //pop this register page
       Navigator.pop(context);
     } catch (e) {
@@ -44,10 +56,8 @@ class _LogInPageState extends State<LogInPage> {
       child: Scaffold(
         //appbar
         appBar: AppBar(
-          title: const Text("Login"),
+          title: const Text("Register"),
         ),
-
-
         //BODY
         body: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 50),
@@ -65,7 +75,7 @@ class _LogInPageState extends State<LogInPage> {
 
               //welcome back message
               Text(
-                "Welcome back, you've been missed!",
+                "Lets create an account for you",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.primary,
@@ -94,13 +104,23 @@ class _LogInPageState extends State<LogInPage> {
                   obscureText: true),
 
               const SizedBox(
+                height: 10,
+              ),
+
+              //password textfield
+              MyTextField(
+                controller: _confirmPasswordController,
+                hintText: 'Confirm password',
+                obscureText: true),
+
+              const SizedBox(
                 height: 25,
               ),
 
               //login button
               MyButton(
-                onTab: login,
-                text: 'Login',
+                onTab: signUp,
+                text: 'Register',
               ),
 
               const SizedBox(
@@ -112,7 +132,7 @@ class _LogInPageState extends State<LogInPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Not a member?',
+                    'Already a member?',
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
                     ),
@@ -120,7 +140,7 @@ class _LogInPageState extends State<LogInPage> {
                   GestureDetector(
                     onTap: widget.togglePages,
                     child: Text(
-                      ' Register now.',
+                      ' Login now.',
                       style: TextStyle(
                           color: Theme.of(context).colorScheme.inversePrimary,
                           fontWeight: FontWeight.bold),

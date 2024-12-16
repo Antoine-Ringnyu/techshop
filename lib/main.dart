@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:techrx/features/auth/data/auth_gate.dart';
 import 'package:techrx/themes/light_mode.dart';
 
 Future<void> main() async {
@@ -21,54 +22,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
         theme: lightMode,
-      title: 'Countries',
-      home: const HomePage(),
-    );
-  }
-}
-
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  final _future = Supabase.instance.client
-      .from('countries')
-      .select();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: FutureBuilder(
-        future: _future,
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          final countries = snapshot.data!;
-          return Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary,
-          
-            ),
-            child: ListView.builder(
-              itemCount: countries.length,
-              itemBuilder: ((context, index) {
-                final country = countries[index];
-                return ListTile(
-                  title: Text(country['name'], style: const TextStyle(
-                    
-                  ),),
-                );
-              }),
-            ),
-          );
-        },
-      ),
+      title: 'TechRx',
+      home: const AuthGate(),
     );
   }
 }
