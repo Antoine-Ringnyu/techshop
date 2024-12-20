@@ -30,9 +30,9 @@ class MyDrawer extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 50.0),
                 child: Icon(
-                  Icons.person,
+                  Icons.person_outlined,
                   size: 80,
-                  color: Theme.of(context).colorScheme.primary,
+                  color: Theme.of(context).colorScheme.secondary,
                 ),
               ),
 
@@ -86,7 +86,7 @@ class MyDrawer extends StatelessWidget {
               ),
 
               //SPACER
-              Spacer(),
+              const Spacer(),
 
               //logout tile
               MyDrawerTile(

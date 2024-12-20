@@ -42,9 +42,19 @@ class _LogInPageState extends State<LogInPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        
         //appbar
         appBar: AppBar(
-          title: const Text("Login"),
+          backgroundColor: Colors.transparent,
+          centerTitle: true,
+          // title: Text(
+          //     'Login',
+          //     textAlign: TextAlign.center,
+          //     style: TextStyle(
+          //       fontSize: 24,
+          //       color: Theme.of(context).colorScheme.primary,
+          //     ),
+          //   ),
         ),
 
 
@@ -68,7 +78,7 @@ class _LogInPageState extends State<LogInPage> {
                 "Welcome back, you've been missed!",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
+                  color: Theme.of(context).colorScheme.secondary,
                   fontSize: 16,
                 ),
               ),
@@ -112,7 +122,7 @@ class _LogInPageState extends State<LogInPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Not a member?',
+                    'Not a member? ',
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
                     ),
@@ -122,7 +132,7 @@ class _LogInPageState extends State<LogInPage> {
                     child: Text(
                       ' Register now.',
                       style: TextStyle(
-                          color: Theme.of(context).colorScheme.inversePrimary,
+                          color: Theme.of(context).colorScheme.secondary,
                           fontWeight: FontWeight.bold),
                     ),
                   ),

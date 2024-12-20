@@ -54,10 +54,22 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+
         //appbar
         appBar: AppBar(
-          title: const Text("Register"),
+          backgroundColor: Colors.transparent,
+          centerTitle: true,
+          // title: Text(
+          //     'Register',
+          //     textAlign: TextAlign.center,
+          //     style: TextStyle(
+          //       fontSize: 24,
+          //       color: Theme.of(context).colorScheme.primary,
+          //     ),
+          //   ),
         ),
+
+
         //BODY
         body: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 50),
@@ -78,7 +90,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 "Lets create an account for you",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
+                  color: Theme.of(context).colorScheme.secondary,
                   fontSize: 16,
                 ),
               ),
@@ -132,7 +144,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Already a member?',
+                    'Already a member? ',
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
                     ),
@@ -142,7 +154,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: Text(
                       ' Login now.',
                       style: TextStyle(
-                          color: Theme.of(context).colorScheme.inversePrimary,
+                          color: Theme.of(context).colorScheme.secondary,
                           fontWeight: FontWeight.bold),
                     ),
                   ),
