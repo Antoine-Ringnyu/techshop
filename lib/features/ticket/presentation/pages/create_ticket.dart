@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -42,9 +42,6 @@ class _CreateTicketState extends State<CreateTicket> {
   // List to store images
   List<File?> _images = [];
 
-  //file picker
-  File? _file;
-
   // Function to pick image
   Future pickImage(ImageSource source) async {
     final ImagePicker picker = ImagePicker();
@@ -82,64 +79,25 @@ class _CreateTicketState extends State<CreateTicket> {
     await pickImage(ImageSource.camera);
   }
 
-  //.............................................................................................................
-  // Function to pick any file
-  Future pickFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
+  //..........................................................................................
 
-    if (result != null) {
-      File file = File(result.files.single.path!);
-      setState(() {
-        _file = file;
-      });
-    }
-  }
-
-  // //upload
-  // Future uploadImage() async {
-  //   if (_images == null) return;
-
-  //   //generate a unique file path
-  //   final fileName = DateTime.now().millisecondsSinceEpoch.toString();
-  //   final path = 'uploads/$fileName';
-
-  //   //upload the image to supabase storage
-  //   await Supabase.instance.client.storage
-  //       //to this bucket
-  //       .from('attachments')
-  //       .upload(path, _images)
-  //       .then(
-  //         (value) => ScaffoldMessenger.of(context).showSnackBar(
-  //             const SnackBar(content: Text("Image upload successful!"))),
-  //       );
-  // }
-
-  //function to upload images and files to supabase
   Future uploadFiles() async {
     try {
       final storage = Supabase.instance.client.storage;
 
-      // Upload each image
+      // Upload images
       for (var i = 0; i < _images.length; i++) {
-        final file = _images[i];
+        final image = _images[i];
         final fileName =
             'attachments/${DateTime.now().millisecondsSinceEpoch}_image$i.jpg';
-
-        await storage.from('attachments').upload(fileName, file!);
-        //to do handle respons and errors
+        await storage.from('attachments').upload(fileName, image!).then(
+              (value) => ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Image upload successful!"),
+                ),
+              ),
+            );
       }
-
-      /* 
-      // Upload the file if it exists
-      if (_file != null) {
-        final fileName =
-            'files/${DateTime.now().millisecondsSinceEpoch}_file.${_file!.path.split('.').last}';
-
-        await storage.from('attachments').upload(fileName, _file!);
-        //to do.. handles errors and respons
-      }
-      
-      */
     } catch (e) {
       print("Error: $e");
     }
@@ -411,13 +369,6 @@ class _CreateTicketState extends State<CreateTicket> {
                       const SizedBox(
                         height: 10,
                       ),
-                      GestureDetector(
-                        onTap: pickFile,
-                        child: Icon(
-                          Icons.file_present_outlined,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ),
                     ],
                   ),
                   const SizedBox(
@@ -428,83 +379,55 @@ class _CreateTicketState extends State<CreateTicket> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // If _imageFile is not null, show the image
-                      Row(
-                        children: [
-                          // Show each image in the list
-                          for (int i = 0; i < _images.length; i++)
-                            Expanded(
-                              child: Stack(
-                                children: [
-                                  // Display each image in the list
-                                  Padding(
-                                    padding: const EdgeInsets.all(2.0),
-                                    child: Image.file(_images[i]!),
-                                  ),
-                                  // Delete button on top of the image
-                                  Positioned(
-                                    top: 0,
-                                    right: 0,
-                                    child: IconButton(
-                                      icon: Icon(
-                                          Icons.disabled_by_default_sharp,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .tertiary),
-                                      onPressed: () => removeImage(
-                                          i), // Remove image on button press
+                      
+                      _images.isNotEmpty
+                          ? Row(
+                              children: [
+                                // Show each image in the list
+                                for (int i = 0; i < _images.length; i++)
+                                  Expanded(
+                                    child: Stack(
+                                      children: [
+                                        // Display each image in the list
+                                        Padding(
+                                          padding: const EdgeInsets.all(2.0),
+                                          child: Image.file(_images[i]!),
+                                        ),
+                                        // Delete button on top of the image
+                                        Positioned(
+                                          top: 0,
+                                          right: 0,
+                                          child: IconButton(
+                                            icon: Icon(
+                                                Icons.disabled_by_default_sharp,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .tertiary),
+                                            onPressed: () => removeImage(
+                                                i), // Remove image on button press
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                ],
+                              ],
+                            )
+                          : Container(
+                            width: double.infinity,
+                            height: 100,
+                            
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.surface,
+                              border: Border.all(
+                                color: Colors.grey[500]!
                               ),
+                              borderRadius: BorderRadius.circular(4.0)
                             ),
-                        ],
-                      ),
-
-                      // If _file is not null, show the file name
-                      // if (_file != null)
-                      //   const SizedBox(
-                      //     height: 10,
-                      //   ),
-                      // Container(
-                      //   width: double.infinity,
-                      //   padding: const EdgeInsets.symmetric(
-                      //       horizontal: 16, vertical: 8),
-                      //   decoration: BoxDecoration(
-                      //     color: Theme.of(context).colorScheme.primary,
-                      //     borderRadius: BorderRadius.circular(24),
-                      //   ),
-                      //   child: RichText(
-                      //     text: TextSpan(
-                      //       children: [
-                      //         TextSpan(
-                      //           text: "File :   ",
-                      //           style: TextStyle(
-                      //             color: Theme.of(context)
-                      //                 .colorScheme
-                      //                 .inversePrimary,
-                      //             fontWeight: FontWeight
-                      //                 .bold, // You can add any style you want here
-                      //           ),
-                      //         ),
-                      //         TextSpan(
-                      //           text: _file!.path.split('/').last,
-                      //           style: TextStyle(
-                      //             color: Theme.of(context).colorScheme.surface,
-                      //             fontStyle: FontStyle
-                      //                 .italic, // You can style this part differently
-                      //           ),
-                      //         ),
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
-
-                      // If neither is selected, show the default icon
-
-                      // if (_images == null && _file == null)
-                      //   const Text(
-                      //     "Select an attachment",
-                      //   ),
+                              child: Placeholder(
+                                color: Theme.of(context).colorScheme.inversePrimary,
+                                strokeWidth: 2.0,
+                              ),
+                            )
                     ],
                   ))
                 ],
