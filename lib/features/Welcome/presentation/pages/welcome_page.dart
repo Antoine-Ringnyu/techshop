@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:techrx/features/Welcome/presentation/components/sample_ticket.dart';
+import 'package:techrx/features/Welcome/presentation/components/sample_tickets.dart';
 import 'package:techrx/features/auth/presentation/pages/auth_page.dart';
+import 'package:techrx/features/searchTickets/presentation/components/search_tickets.dart';
 import 'package:techrx/features/ticket/presentation/pages/create_ticket.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -17,12 +18,13 @@ class _WelcomePageState extends State<WelcomePage> {
     //BUILDING UI
     return SafeArea(
       child: Scaffold(
-
         //APPBAR
         appBar: AppBar(
           iconTheme: IconThemeData(
-          color: Theme.of(context).colorScheme.inversePrimary, // Change this to your desired color
-         ),
+              color: Theme.of(context)
+                  .colorScheme
+                  .inversePrimary // Change this to your desired color
+              ),
           backgroundColor: Theme.of(context).colorScheme.secondary,
 
           //App logo
@@ -31,7 +33,7 @@ class _WelcomePageState extends State<WelcomePage> {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 24,
-              color: Theme.of(context).colorScheme.inversePrimary,
+              color: Theme.of(context).colorScheme.tertiary,
             ),
           ),
           centerTitle: true,
@@ -56,26 +58,31 @@ class _WelcomePageState extends State<WelcomePage> {
 
         //BODY
         body: ListView(children: [
-          //CREATE TICKET
-          const CreateTicket(),
+          //SEARCH AND CREATE TICKET
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 50.0, horizontal: 30),
+            color: Theme.of(context).colorScheme.inversePrimary,
+            child: const Column(
+              children: [
+                //SEARCH search ticket
+                SearchTickets(),
+                SizedBox(
+                  height: 50,
+                ),
+                //CREATE TICKET
+                CreateTicket(),
+              ],
+            ),
+          ),
 
           //SAMPLE TICKETS
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 15),
+            child: SampleTickets(),
+          ),
           Container(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 30.0, vertical: 50.0),
-            decoration: const BoxDecoration(
-                // color: Colors.white
-                ),
-            child: const Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SampleTicket(),
-                SizedBox(height: 24,),
-                SampleTicket(),
-                SizedBox(height: 24,),
-                SampleTicket(),
-              ],
-            )
+            padding: EdgeInsets.all(50),
+            color: Theme.of(context).colorScheme.secondary,
           )
         ]),
       ),

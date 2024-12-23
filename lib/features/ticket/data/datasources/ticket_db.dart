@@ -11,12 +11,24 @@ class TicketDb {
   }
 
   //read ticket
-  final stream = Supabase.instance.client.from('tickets').stream(
+
+  /*
+      final stream = Supabase.instance.client.from('tickets').stream(
     primaryKey: ['id'],
   ).map((data) => data.map((ticketMap) => Ticket.fromMap(ticketMap)).toList());
+  */
+
+  Stream<List<Ticket>> get stream {
+    return Supabase.instance.client
+        .from('tickets')
+        .stream(primaryKey: ['id']) // Listen for changes in the tickets table
+        .map((data) =>
+            data.map((ticketMap) => Ticket.fromMap(ticketMap)).toList());
+  }
 
   //update ticket
-  Future updateTicket(Ticket oldTicket, String newUserName, String newLocation, String newContact, String newIssueDescription) async {
+  Future updateTicket(Ticket oldTicket, String newUserName, String newLocation,
+      String newContact, String newIssueDescription) async {
     await database.update({
       'userName': newUserName,
       'location': newLocation,

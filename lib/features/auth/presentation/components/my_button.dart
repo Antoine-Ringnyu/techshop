@@ -16,10 +16,10 @@ class MyButton extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         decoration: BoxDecoration(
-    
+          color: Theme.of(context).colorScheme.primary,
           border: Border.all(
             //color of button
-            color: Theme.of(context).colorScheme.tertiary,
+            color: Theme.of(context).colorScheme.surface,
             width: 1,
           ),
 
@@ -32,7 +32,7 @@ class MyButton extends StatelessWidget {
             text,
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.secondary,
+              color: Theme.of(context).colorScheme.tertiary,
               fontSize: 16,
             ),
           ),

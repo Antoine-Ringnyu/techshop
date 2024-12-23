@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -141,313 +139,235 @@ class _CreateTicketState extends State<CreateTicket> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        //color of button
-        color: Theme.of(context).colorScheme.inversePrimary,
-        //curve corners
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 50.0, horizontal: 30),
-        child: Center(
-          child: Column(
-            // shrinkWrap: true, // Add this property to adjust height to fit content
-            children: [
-              //SEARCH INPUT
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey[400]!),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        hintText: "Enter ticket ID or your contact",
-                        hintStyle: TextStyle(color: Colors.grey[500]!),
-                        fillColor: Theme.of(context).colorScheme.surface,
-                        filled: true,
-
-                        //prefixIcon
-                        prefixIcon: Icon(
-                          Icons.search,
-                          color: Theme.of(context).colorScheme.secondary,
-                        ),
-
-                        //clear text icon button
-                        suffixIcon: IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.cancel,
-                            color: Theme.of(context).colorScheme.tertiary,
-                          ),
-                        ),
-
-                        //border when selected
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Theme.of(context).colorScheme.tertiary),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(
-                    width: 4,
-                  ),
-
-                  //search iconbutton
-                  Container(
-                    padding: const EdgeInsets.all(4),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.secondary,
-                      border: Border.all(color: Colors.grey[400]!),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: IconButton(
-                      icon: const Icon(
-                        Icons.search,
-                        size: 32,
-                      ),
-                      color: Theme.of(context).colorScheme.surface,
-                      onPressed: () {},
-                    ),
-                  )
-                ],
+    return Center(
+      child: Column(
+        // shrinkWrap: true, // Add this property to adjust height to fit content
+        children: [
+          //create Ticket
+          SizedBox(
+            width: double.infinity,
+            child: Text(
+              'Create Ticket',
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                fontSize: 24,
+                color: Theme.of(context).colorScheme.secondary,
               ),
+            ),
+          ),
 
-              const SizedBox(
-                height: 50,
-              ),
+          const SizedBox(
+            height: 25,
+          ),
 
-              //create Ticket
-              SizedBox(
-                width: double.infinity,
-                child: Text(
-                  'Create Ticket',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
-                ),
-              ),
+          //emergency tab
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            decoration: BoxDecoration(
+              //color of button
+              color: Theme.of(context).colorScheme.secondary,
 
-              const SizedBox(
-                height: 25,
-              ),
-
-              //emergency tab
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                decoration: BoxDecoration(
-                  //color of button
-                  color: Theme.of(context).colorScheme.secondary,
-
-                  //curve corners
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //curve corners
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Emergency",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.inversePrimary,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 4,
-                        ),
-                        Text(
-                          "This ticket will be treated within 3 hours",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.surface,
-                          ),
-                        ),
-                      ],
+                    Text(
+                      "Emergency",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.inversePrimary,
+                      ),
                     ),
-                    CupertinoSwitch(
-                      value: _emergency,
-                      onChanged: emergency,
-
-                      //switch styling
-                      activeColor: Theme.of(context).colorScheme.inversePrimary,
-                      thumbColor: Theme.of(context).colorScheme.tertiary,
-                      trackColor: Colors.grey[900],
-                    )
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    Text(
+                      "This ticket will be treated within 3 hours",
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.surface,
+                      ),
+                    ),
                   ],
                 ),
-              ),
+                CupertinoSwitch(
+                  value: _emergency,
+                  onChanged: emergency,
 
-              const SizedBox(
-                height: 25,
-              ),
+                  //switch styling
+                  activeColor: Theme.of(context).colorScheme.inversePrimary,
+                  thumbColor: Theme.of(context).colorScheme.tertiary,
+                  trackColor: Colors.grey[900],
+                )
+              ],
+            ),
+          ),
 
-              //customer or company name
-              MyTicketTextfield(
-                controller: nameController,
-                hintText: "Name or Company",
-                textFieldIcon: Icons.person_outlined,
-                height: 1,
-              ),
+          const SizedBox(
+            height: 25,
+          ),
 
-              const SizedBox(
-                height: 10,
-              ),
+          //customer or company name
+          MyTicketTextfield(
+            controller: nameController,
+            hintText: "Name or Company",
+            textFieldIcon: Icons.person_outlined,
+            height: 1,
+          ),
 
-              //location
-              MyTicketTextfield(
-                controller: locationController,
-                hintText: "location",
-                textFieldIcon: Icons.location_on_outlined,
-                height: 1,
-              ),
+          const SizedBox(
+            height: 10,
+          ),
 
-              const SizedBox(
-                height: 10,
-              ),
+          //location
+          MyTicketTextfield(
+            controller: locationController,
+            hintText: "location",
+            textFieldIcon: Icons.location_on_outlined,
+            height: 1,
+          ),
 
-              //telephone or email
-              MyTicketTextfield(
-                controller: contactController,
-                hintText: "Phone or Email",
-                textFieldIcon: Icons.contact_page_outlined,
-                height: 1,
-              ),
+          const SizedBox(
+            height: 10,
+          ),
 
-              const SizedBox(
-                height: 10,
-              ),
+          //telephone or email
+          MyTicketTextfield(
+            controller: contactController,
+            hintText: "Phone or Email",
+            textFieldIcon: Icons.contact_page_outlined,
+            height: 1,
+          ),
 
-              //issue description
-              MyTicketTextfield(
-                controller: issueDescriptionController,
-                hintText: "Describe the Issue",
-                textFieldIcon: Icons.notes_outlined,
-                height: 3,
-              ),
+          const SizedBox(
+            height: 10,
+          ),
 
-              // ...............................................................................................
-              const SizedBox(
-                height: 10,
-              ),
+          //issue description
+          MyTicketTextfield(
+            controller: issueDescriptionController,
+            hintText: "Describe the Issue",
+            textFieldIcon: Icons.notes_outlined,
+            height: 3,
+          ),
 
-              //attatchment
+          // ...............................................................................................
+          const SizedBox(
+            height: 10,
+          ),
 
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+          //attatchment
+
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
                 children: [
-                  Column(
-                    children: [
-                      GestureDetector(
-                        onTap: pickImageFromCamera,
-                        child: Icon(
-                          Icons.camera_alt_outlined,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      GestureDetector(
-                        onTap: pickImageFromGallery,
-                        child: Icon(
-                          Icons.image_search,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                    ],
+                  GestureDetector(
+                    onTap: pickImageFromCamera,
+                    child: Icon(
+                      Icons.camera_alt_outlined,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                   ),
                   const SizedBox(
-                    width: 25,
+                    height: 10,
                   ),
-                  Expanded(
-                      child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // If _imageFile is not null, show the image
-                      
-                      _images.isNotEmpty
-                          ? Row(
-                              children: [
-                                // Show each image in the list
-                                for (int i = 0; i < _images.length; i++)
-                                  Expanded(
-                                    child: Stack(
-                                      children: [
-                                        // Display each image in the list
-                                        Padding(
-                                          padding: const EdgeInsets.all(2.0),
-                                          child: Image.file(_images[i]!),
-                                        ),
-                                        // Delete button on top of the image
-                                        Positioned(
-                                          top: 0,
-                                          right: 0,
-                                          child: IconButton(
-                                            icon: Icon(
-                                                Icons.disabled_by_default_sharp,
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .tertiary),
-                                            onPressed: () => removeImage(
-                                                i), // Remove image on button press
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                              ],
-                            )
-                          : Container(
-                            width: double.infinity,
-                            height: 100,
-                            
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.surface,
-                              border: Border.all(
-                                color: Colors.grey[500]!
-                              ),
-                              borderRadius: BorderRadius.circular(4.0)
-                            ),
-                              child: Placeholder(
-                                color: Theme.of(context).colorScheme.inversePrimary,
-                                strokeWidth: 2.0,
-                              ),
-                            )
-                    ],
-                  ))
+                  GestureDetector(
+                    onTap: pickImageFromGallery,
+                    child: Icon(
+                      Icons.image_search,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
                 ],
               ),
-
-              // ...............................................................................................
-
               const SizedBox(
-                height: 50,
+                width: 25,
               ),
-              //submit button
-              MyButton(
-                onTab: submit,
-                text: "Submit Ticket",
-              )
+              Expanded(
+                  child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // If _imageFile is not null, show the image
 
-              // ...............................................................................................
+                  _images.isNotEmpty
+                      ? Row(
+                          children: [
+                            // Show each image in the list
+                            for (int i = 0; i < _images.length; i++)
+                              Expanded(
+                                child: Stack(
+                                  children: [
+                                    // Display each image in the list
+                                    Padding(
+                                      padding: const EdgeInsets.all(2.0),
+                                      child: Image.file(_images[i]!),
+                                    ),
+                                    // Delete button on top of the image
+                                    Positioned(
+                                      top: 0,
+                                      right: 0,
+                                      child: IconButton(
+                                        icon: Icon(
+                                            Icons.disabled_by_default_sharp,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .tertiary),
+                                        onPressed: () => removeImage(
+                                            i), // Remove image on button press
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                          ],
+                        )
+                      : Container(
+                          width: double.infinity,
+                          height: 100,
+                          padding: const EdgeInsets.all(6),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.surface,
+                            border: Border.all(
+                              color: Colors.grey[200]!,
+                            ),
+                            borderRadius: BorderRadius.circular(6.0),
+                          ),
+                          child: Text(
+                            'You can attach a picture',
+                            style: TextStyle(
+                              color: Colors.grey[500],
+                            ),
+                          ),
+                        )
+                ],
+              ))
             ],
           ),
-        ),
+
+          // ...............................................................................................
+
+          const SizedBox(
+            height: 50,
+          ),
+          //submit button
+          MyButton(
+            onTab: submit,
+            text: "Submit Ticket",
+          )
+
+          // ...............................................................................................
+        ],
       ),
     );
   }
