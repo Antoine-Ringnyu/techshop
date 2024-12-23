@@ -8,12 +8,16 @@ class SearchTickets extends StatefulWidget {
 }
 
 class _SearchTicketsState extends State<SearchTickets> {
+  //controller
+  TextEditingController _controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         Expanded(
           child: TextField(
+            controller: _controller,
             decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.grey[400]!),
@@ -32,7 +36,11 @@ class _SearchTicketsState extends State<SearchTickets> {
 
               //clear text icon button
               suffixIcon: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  setState(() {
+                    _controller.clear();
+                  });
+                },
                 icon: Icon(
                   Icons.cancel,
                   color: Theme.of(context).colorScheme.secondary,
