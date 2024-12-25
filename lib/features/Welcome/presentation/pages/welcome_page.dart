@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:techrx/features/Welcome/presentation/components/sample_tickets.dart';
 import 'package:techrx/features/auth/presentation/pages/auth_page.dart';
+import 'package:techrx/features/home/presentation/components/my_drawer.dart';
 import 'package:techrx/features/searchTickets/presentation/components/search_tickets.dart';
 import 'package:techrx/features/ticket/presentation/pages/create_ticket.dart';
 
@@ -54,7 +55,7 @@ class _WelcomePageState extends State<WelcomePage> {
         ),
 
         //DRAWER
-        drawer: const Drawer(),
+        drawer: MyDrawer(),
 
         //BODY
         body: ListView(children: [
@@ -81,7 +82,7 @@ class _WelcomePageState extends State<WelcomePage> {
             child: SampleTickets(),
           ),
           Container(
-            padding: EdgeInsets.all(50),
+            padding: const EdgeInsets.all(50),
             color: Theme.of(context).colorScheme.secondary,
           )
         ]),

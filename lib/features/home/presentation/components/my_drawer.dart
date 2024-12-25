@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:techrx/features/auth/data/auth_service.dart';
 import 'package:techrx/features/home/presentation/components/my_drawer_tile.dart';
+import 'package:techrx/features/searchTickets/presentation/pages/search_page.dart';
 
 class MyDrawer extends StatelessWidget {
   MyDrawer({super.key});
 
-    //get auth service
+  //get auth service
   final authService = AuthService();
 
   //logout button pressed
@@ -57,7 +58,6 @@ class MyDrawer extends StatelessWidget {
                   Navigator.of(context).pop();
 
                   //get the current user id
-                  
 
                   //navigate to the profile page
                   // Navigator.push(
@@ -73,16 +73,27 @@ class MyDrawer extends StatelessWidget {
 
               //search tile
               MyDrawerTile(
-                title: 'S E A R C H',
-                icon: Icons.search,
-                onTap: () {},
-              ),
+                  title: 'S E A R C H',
+                  icon: Icons.search,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SearchPage(),
+                      ),
+                    );
+                    //just poping the drawer menu
+                    Navigator.of(context).pop();
+                  }),
 
               //setting tile
               MyDrawerTile(
                 title: 'S E T T I N G S',
                 icon: Icons.settings,
-                onTap: () {},
+                onTap: () {
+                  //just poping the drawer menu
+                  Navigator.of(context).pop();
+                },
               ),
 
               //SPACER
