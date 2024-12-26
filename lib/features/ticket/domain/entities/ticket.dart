@@ -5,6 +5,7 @@ class Ticket {
   String contact;
   String issueDescription;
   bool emergency;
+  String? status;
 
   Ticket({
     this.id,
@@ -12,18 +13,20 @@ class Ticket {
     required this.location,
     required this.contact,
     required this.issueDescription,
-    required this.emergency
+    required this.emergency,
+    this.status,
   });
 
   //map -> note
   factory Ticket.fromMap(Map<String, dynamic> map) {
     return Ticket(
-      id: map['id'] as int,
+      id: map['id'] as int?,
       userName: map['userName'] as String,
       location: map['location'] as String,
       contact: map['contact'] as String,
-      issueDescription: map['issueDescription'] as String, 
+      issueDescription: map['issueDescription'] as String,
       emergency: map['emergency'] as bool,
+      status: map['status'] as String?,
     );
   }
 
@@ -34,7 +37,8 @@ class Ticket {
       'location': location,
       'contact': contact,
       'issueDescription': issueDescription,
-      'emergency': emergency
+      'emergency': emergency,
+      'status': status,
     };
   }
 }

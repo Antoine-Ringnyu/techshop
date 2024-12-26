@@ -28,12 +28,13 @@ class TicketDb {
 
   //update ticket
   Future updateTicket(Ticket oldTicket, String newUserName, String newLocation,
-      String newContact, String newIssueDescription) async {
+      String newContact, String newIssueDescription, String? newStatus) async {
     await database.update({
       'userName': newUserName,
       'location': newLocation,
       'contact': newContact,
       'issueDescription': newIssueDescription,
+      'status': newStatus!,
     }).eq('id', oldTicket.id!);
   }
 

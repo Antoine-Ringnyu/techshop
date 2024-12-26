@@ -116,23 +116,20 @@ class _SearchTicketsState extends State<SearchTickets> {
             builder: (context, state) {
               //loaded
               if (state is SearchLoaded) {
-                //no users..
+                //no tickets..
                 if (state.tickets.isEmpty) {
                   return const Center(
                     child: Text("No tickets found"),
                   );
                 }
-                //users...
-                return SizedBox(
-                  height: 200,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: state.tickets.length,
-                    itemBuilder: (context, index) {
-                      final ticket = state.tickets[index];
-                      return TicketTile(ticket: ticket! );
-                    },
-                  ),
+                //Tickets...
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: state.tickets.length,
+                  itemBuilder: (context, index) {
+                    final ticket = state.tickets[index];
+                    return TicketTile(ticket: ticket! );
+                  },
                 );
               }
           
@@ -152,7 +149,7 @@ class _SearchTicketsState extends State<SearchTickets> {
           
               //default
               return const Center(
-                child: Text("Start searching for users.."),
+                child: Text("Start searching for Tickets..."),
               );
             },
           ),
