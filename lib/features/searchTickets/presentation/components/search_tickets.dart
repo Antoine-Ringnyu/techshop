@@ -18,7 +18,6 @@ class _SearchTicketsState extends State<SearchTickets> {
   //controller
   final TextEditingController searchController = TextEditingController();
 
-
   void onSearchChanged() {
     final query = searchController.text;
     searchCubit.searchTickets(query);
@@ -27,7 +26,7 @@ class _SearchTicketsState extends State<SearchTickets> {
   @override
   void initState() {
     super.initState();
-     searchController.addListener(onSearchChanged);
+    searchController.addListener(onSearchChanged);
   }
 
   @override
@@ -35,7 +34,6 @@ class _SearchTicketsState extends State<SearchTickets> {
     searchController.dispose();
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -128,25 +126,27 @@ class _SearchTicketsState extends State<SearchTickets> {
                   itemCount: state.tickets.length,
                   itemBuilder: (context, index) {
                     final ticket = state.tickets[index];
-                    return TicketTile(ticket: ticket! );
+                    return TicketTile(
+                      ticket: ticket!,
+                    );
                   },
                 );
               }
-          
+
               //loading
               else if (state is SearchLoading) {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
               }
-          
+
               //erroe
               else if (state is SearchError) {
                 return Center(
                   child: Text(state.message),
                 );
               }
-          
+
               //default
               return const Center(
                 child: Text("Start searching for Tickets..."),
