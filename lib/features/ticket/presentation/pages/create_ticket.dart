@@ -31,6 +31,9 @@ class _CreateTicketState extends State<CreateTicket> {
   // List to store images
   List<File?> _images = [];
 
+  // List to store uploaded image URLs
+  List<String> imageUrls = [];
+
   // Toggle emergency state
   void emergency(bool value) {
     setState(() {
@@ -49,31 +52,42 @@ class _CreateTicketState extends State<CreateTicket> {
     }
   }
 
-  // Upload selected images
-  Future<void> uploadFiles() async {
+  // Upload selected images and get their URLs
+  Future<void> uploadAttachment() async {
     try {
       final storage = Supabase.instance.client.storage;
+      imageUrls.clear(); // Clear any previously stored URLs
+
       for (int i = 0; i < _images.length; i++) {
         final fileName =
             'attachments/${DateTime.now().millisecondsSinceEpoch}_image$i.jpg';
         await storage.from('attachments').upload(fileName, _images[i]!);
+
+        // Get the public URL of the uploaded image
+        final fileUrl = storage.from('attachments').getPublicUrl(fileName);
+
+        imageUrls.add(fileUrl);
       }
     } catch (e) {
       print("Error uploading images: $e");
     }
   }
 
-  // Submit ticket
+// Submit ticket
   Future<void> submit() async {
+    // Upload images and retrieve their URLs
+    await uploadAttachment();
+
+    // Prepare the new ticket with the image URLs
     final newTicket = Ticket(
       userName: nameController.text,
       location: locationController.text,
       contact: contactController.text,
       issueDescription: issueDescriptionController.text,
       emergency: _emergency,
+      imageUrl: imageUrls.join(','), // Store URLs as a comma-separated string
     );
 
-    await uploadFiles();
     await ticketDb.createTicket(newTicket);
 
     // Reset state
@@ -84,6 +98,7 @@ class _CreateTicketState extends State<CreateTicket> {
     emergency(false);
     setState(() {
       _images.clear();
+      imageUrls.clear(); // Clear the URLs as well
     });
   }
 

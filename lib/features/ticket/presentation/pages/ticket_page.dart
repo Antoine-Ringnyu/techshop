@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:techrx/core/utils/ticket_utils.dart';
 import 'package:techrx/features/ticket/domain/entities/ticket.dart';
 
 class TicketPage extends StatefulWidget {
@@ -10,94 +11,113 @@ class TicketPage extends StatefulWidget {
 }
 
 class _TicketPageState extends State<TicketPage> {
-  
   @override
   Widget build(BuildContext context) {
+    // Parse the image URLs from the comma-separated string
+    List<String> imageUrls = widget.ticket.imageUrl?.split(',') ?? [];
+        final status = getTicketStatusAndColor(widget.ticket);
+    final statusText = status['statusText'];
+    final statusColor = status['statusColor'];
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
-      // appBar: AppBar(
-      //   backgroundColor: Colors.transparent,
-      // ),
-      //body
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            leading:  const Icon(Icons.insert_emoticon_sharp),
-            // title: const Text('Ticked ID'),
+            backgroundColor: Colors
+                .transparent, // Make the background transparent to show the image
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back_ios_new_sharp,
+                  color: Colors.white, size: 30), // Back arrow icon
+              onPressed: () {
+                Navigator.pop(
+                    context); // Pop the current screen and navigate back
+              },
+            ),
             expandedHeight: 200,
             floating: true,
             pinned: true,
-
-            //flexible space
             flexibleSpace: FlexibleSpaceBar(
-              title: Text(widget.ticket.id.toString()),
+              // title: Text(
+              //   "T e c h R x",
+              //   textAlign: TextAlign.center,
+              //   style: TextStyle(
+              //     color: Theme.of(context).colorScheme.tertiary,
+              //     fontWeight: FontWeight.bold,
+              //   ),
+              // ),
+              background: Image.asset(
+                'lib/assets/images/smile.jpg',
+                fit: BoxFit
+                    .cover, // Makes sure the image covers the available space
+              ),
             ),
           ),
 
-          //sliver items
+          // Sliver items
           SliverToBoxAdapter(
             child: ClipRRect(
-              borderRadius: const BorderRadius.only(bottomLeft:Radius.circular(50),bottomRight: Radius.circular(50)),
+              borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(50),
+                  bottomRight: Radius.circular(50)),
               child: Container(
                 padding: const EdgeInsets.all(30),
-                color:Theme.of(context).colorScheme.primary ,
+                color: Theme.of(context).colorScheme.primary,
                 child: Column(
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          'Ticket  3112680-1',
-                          style: TextStyle(
+                        Text(
+                          "Ticket 3750-${widget.ticket.id.toString()}",
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 32,
                           ),
                         ),
                         Icon(
                           Icons.perm_contact_cal_rounded,
-                          color: Theme.of(context).colorScheme.surface,
+                          color: Theme.of(context).colorScheme.tertiary,
                           size: 50,
                         )
                       ],
                     ),
-
-                    //ticket status
                     Row(
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(45),
                           child: Container(
                             padding: const EdgeInsets.all(8),
-                            color: Colors.green,
+                            color: statusColor,
                           ),
                         ),
-                        const SizedBox(width: 8,),
-                        const Text(
-                          'In progress',
-                          style: TextStyle(
+                        const SizedBox(width: 8),
+                        Text(
+                          statusText,
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 20,
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 50,),
-                    //call technician
-                      ClipRRect(
-                       borderRadius: BorderRadius.circular(12),
-                        child: Container(
-                          color: Theme.of(context).colorScheme.secondary,
-                          padding: const EdgeInsets.all(8),
-                          child: const Center(child: Text(
+                    const SizedBox(height: 50),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Container(
+                        color: Theme.of(context).colorScheme.secondary,
+                        padding: const EdgeInsets.all(8),
+                        child: const Center(
+                          child: Text(
                             'Call Technician',
                             style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 24,
+                              color: Colors.white,
+                              fontSize: 24,
+                            ),
                           ),
-                          ),),
                         ),
-                      )
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -106,12 +126,11 @@ class _TicketPageState extends State<TicketPage> {
 
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 50,horizontal: 30),
+              padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 30),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  //location
+                  // Display location
                   Row(
                     children: [
                       Icon(
@@ -119,21 +138,21 @@ class _TicketPageState extends State<TicketPage> {
                         color: Theme.of(context).colorScheme.secondary,
                         size: 30,
                       ),
-                      const SizedBox(width: 25,),
-                      Expanded(child: Text(
-                        widget.ticket.location,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.primary,
-                          fontSize: 18
+                      const SizedBox(width: 25),
+                      Expanded(
+                        child: Text(
+                          widget.ticket.location,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.primary,
+                              fontSize: 18),
                         ),
-                      ))
+                      )
                     ],
                   ),
+                  const SizedBox(height: 30),
 
-                  const SizedBox(height: 30,),
-
-                  //issue description
+                  // Display issue description
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -142,21 +161,20 @@ class _TicketPageState extends State<TicketPage> {
                         color: Theme.of(context).colorScheme.secondary,
                         size: 30,
                       ),
-                      const SizedBox(width: 25,),
-                      Expanded(child: Text(
-                        widget.ticket.issueDescription,
-                        style: TextStyle(
-                          // fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.primary,
-                          // fontSize: 18
+                      const SizedBox(width: 25),
+                      Expanded(
+                        child: Text(
+                          widget.ticket.issueDescription,
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
                         ),
-                      ))
+                      )
                     ],
                   ),
+                  const SizedBox(height: 30),
 
-                  const SizedBox(height: 30,),
-
-                  //issue contact
+                  // Display contact information
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -165,28 +183,31 @@ class _TicketPageState extends State<TicketPage> {
                         color: Theme.of(context).colorScheme.secondary,
                         size: 30,
                       ),
-                      const SizedBox(width: 25,),
-                      Expanded(child: ClipRRect(
-                        borderRadius: BorderRadius.circular(25),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 8),
-                          color: Theme.of(context).colorScheme.secondary,
-                          child: Text(
-                            widget.ticket.contact,
-                            style: TextStyle(
-                              // fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.inversePrimary,
-                              fontSize: 16
+                      const SizedBox(width: 25),
+                      Expanded(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(25),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 8),
+                            color: Theme.of(context).colorScheme.secondary,
+                            child: Text(
+                              widget.ticket.contact,
+                              style: TextStyle(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .inversePrimary,
+                                fontSize: 16,
+                              ),
                             ),
                           ),
                         ),
-                      ))
+                      )
                     ],
                   ),
+                  const SizedBox(height: 30),
 
-                  const SizedBox(height: 30,),
-
-                  //attachment
+                  // Display images
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -195,24 +216,37 @@ class _TicketPageState extends State<TicketPage> {
                         color: Theme.of(context).colorScheme.secondary,
                         size: 32,
                       ),
-                      const SizedBox(width: 25,),
-                      Expanded(child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 8),
-                          color: Theme.of(context).colorScheme.inversePrimary,
-                          child: Text(
-                            widget.ticket.contact,
-                            style: TextStyle(
-                              // fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.primary,
-                              fontSize: 16
-                            ),
-                          ),
-                        ),
-                      ))
+                      const SizedBox(width: 25),
+                      Expanded(
+                        child: imageUrls.isEmpty
+                            ? const Text(
+                                'No attachment',
+                                style: TextStyle(
+                                  color: Colors
+                                      .grey, // You can change this to match your theme
+                                  fontSize: 16,
+                                ),
+                              )
+                            : Row(
+                                children: imageUrls.map((url) {
+                                  return Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8.0),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(12),
+                                        child: Image.network(url,
+                                            // height: 200,
+                                            width: double.infinity,
+                                            fit: BoxFit.cover),
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                      ),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),
@@ -223,12 +257,12 @@ class _TicketPageState extends State<TicketPage> {
               child: Container(
                 padding: const EdgeInsets.all(30),
                 height: 300,
-                color:Theme.of(context).colorScheme.inversePrimary ,
+                color: Theme.of(context).colorScheme.inversePrimary,
               ),
             ),
           )
         ],
-      ), // Corrected here
+      ),
     );
   }
 }

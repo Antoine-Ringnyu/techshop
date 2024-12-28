@@ -6,6 +6,7 @@ class Ticket {
   String issueDescription;
   bool emergency;
   String? status;
+  String? imageUrl;
 
   Ticket({
     this.id,
@@ -15,6 +16,7 @@ class Ticket {
     required this.issueDescription,
     required this.emergency,
     this.status,
+    this.imageUrl
   });
 
   //map -> note
@@ -27,6 +29,7 @@ class Ticket {
       issueDescription: map['issueDescription'] as String,
       emergency: map['emergency'] as bool,
       status: map['status'] as String?,
+      imageUrl: map['imageUrl'] as String?,
     );
   }
 
@@ -39,6 +42,7 @@ class Ticket {
       'issueDescription': issueDescription,
       'emergency': emergency,
       'status': status,
+      'imageUrl': imageUrl,
     };
   }
 }
