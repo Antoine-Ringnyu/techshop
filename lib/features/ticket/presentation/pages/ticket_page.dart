@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:techrx/core/utils/ticket_utils.dart';
 import 'package:techrx/features/ticket/domain/entities/ticket.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TicketPage extends StatefulWidget {
   final Ticket ticket;
@@ -13,9 +14,18 @@ class TicketPage extends StatefulWidget {
 class _TicketPageState extends State<TicketPage> {
   @override
   Widget build(BuildContext context) {
+    Future<void> makePhoneCall(String phoneNumber) async {
+      final Uri phoneUri = Uri(scheme: 'tel', path: phoneNumber);
+      if (await canLaunchUrl(phoneUri.toString() as Uri)) {
+        await launchUrl(phoneUri.toString() as Uri);
+      } else {
+        throw 'Could not launch $phoneNumber';
+      }
+    }
+
     // Parse the image URLs from the comma-separated string
     List<String> imageUrls = widget.ticket.imageUrl?.split(',') ?? [];
-        final status = getTicketStatusAndColor(widget.ticket);
+    final status = getTicketStatusAndColor(widget.ticket);
     final statusText = status['statusText'];
     final statusColor = status['statusColor'];
 
@@ -102,19 +112,31 @@ class _TicketPageState extends State<TicketPage> {
                       ],
                     ),
                     const SizedBox(height: 50),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: Container(
-                        color: Theme.of(context).colorScheme.secondary,
-                        padding: const EdgeInsets.all(8),
-                        child: const Center(
-                          child: Text(
-                            'Call Technician',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 24,
-                            ),
-                          ),
+                    TextButton.icon(
+                      onPressed: () {
+                        // Add your onPressed functionality here
+                        // FlutterPhoneDirectCaller.callNumber('+237 652605131');
+                        // launch('tel:+237652605131');
+                        makePhoneCall('1234567890');
+                      },
+                      icon: Icon(
+                        Icons.call, // You can change this to any other icon
+                        color: Theme.of(context).colorScheme.tertiary,
+                      ),
+                      label: Text(
+                        'Call Technician',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.tertiary,
+                          fontSize: 18,
+                        ),
+                      ),
+                      style: TextButton.styleFrom(
+                        backgroundColor:
+                            Theme.of(context).colorScheme.secondary,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 64, vertical: 6),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
                         ),
                       ),
                     )
@@ -135,7 +157,7 @@ class _TicketPageState extends State<TicketPage> {
                     children: [
                       Icon(
                         Icons.location_on_outlined,
-                        color: Theme.of(context).colorScheme.secondary,
+                        color: Theme.of(context).colorScheme.primary,
                         size: 30,
                       ),
                       const SizedBox(width: 25),
@@ -144,7 +166,7 @@ class _TicketPageState extends State<TicketPage> {
                           widget.ticket.location,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.primary,
+                              color: Theme.of(context).colorScheme.secondary,
                               fontSize: 18),
                         ),
                       )
@@ -158,7 +180,7 @@ class _TicketPageState extends State<TicketPage> {
                     children: [
                       Icon(
                         Icons.notes,
-                        color: Theme.of(context).colorScheme.secondary,
+                        color: Theme.of(context).colorScheme.primary,
                         size: 30,
                       ),
                       const SizedBox(width: 25),
@@ -166,7 +188,7 @@ class _TicketPageState extends State<TicketPage> {
                         child: Text(
                           widget.ticket.issueDescription,
                           style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
+                            color: Theme.of(context).colorScheme.secondary,
                           ),
                         ),
                       )
@@ -180,7 +202,7 @@ class _TicketPageState extends State<TicketPage> {
                     children: [
                       Icon(
                         Icons.contact_phone_outlined,
-                        color: Theme.of(context).colorScheme.secondary,
+                        color: Theme.of(context).colorScheme.primary,
                         size: 30,
                       ),
                       const SizedBox(width: 25),
@@ -213,7 +235,7 @@ class _TicketPageState extends State<TicketPage> {
                     children: [
                       Icon(
                         Icons.camera_alt_outlined,
-                        color: Theme.of(context).colorScheme.secondary,
+                        color: Theme.of(context).colorScheme.primary,
                         size: 32,
                       ),
                       const SizedBox(width: 25),

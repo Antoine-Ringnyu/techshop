@@ -40,42 +40,42 @@ class _SampleTicketsState extends State<SampleTickets> {
               final ticket = tickets[index];
 
               // Display each ticket's issue description
-              return ListTile(
-                title: Row(
-                  // crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                              color:
-                                  Theme.of(context).colorScheme.inversePrimary),
-                          borderRadius: BorderRadius.circular(8)),
-                      child: Icon(
-                        Icons.person,
+              return Row(
+                // crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(
+                            color:
+                                Theme.of(context).colorScheme.inversePrimary),
+                        borderRadius: BorderRadius.circular(8)),
+                    child: Icon(
+                      Icons.person,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 25,
+                  ),
+                  Expanded(
+                    child: ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      // textColor: Colors.black,
+                      title: Text(ticket.userName),
+                      subtitle: Text(ticket.issueDescription),
+                      titleTextStyle: TextStyle(
                         color: Theme.of(context).colorScheme.primary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      subtitleTextStyle: TextStyle(
+                        color: Theme.of(context).colorScheme.secondary,
                       ),
                     ),
-                    const SizedBox(
-                      width: 25,
-                    ),
-                    Expanded(
-                      child: ListTile(
-                        contentPadding: EdgeInsets.zero,
-                        // textColor: Colors.black,
-                        title: Text(ticket.userName),
-                        subtitle: Text(ticket.issueDescription),
-                        titleTextStyle: TextStyle(
-                            color: Theme.of(context).colorScheme.secondary,
-                            fontWeight: FontWeight.bold),
-                        subtitleTextStyle: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               );
             },
           );

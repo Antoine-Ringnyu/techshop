@@ -32,8 +32,8 @@ class TicketTile extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8),
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.surface,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: Theme.of(context).colorScheme.primary),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Theme.of(context).colorScheme.secondary),
           ),
           child: Row(
             children: [
@@ -41,13 +41,14 @@ class TicketTile extends StatelessWidget {
                 child: ListTile(
                   contentPadding: EdgeInsets.zero,
                   title: Text(ticket.userName),
-                  subtitle: Text(ticket.issueDescription),
+                  subtitle: SizedBox(
+                      height: 45, child: Text(ticket.issueDescription)),
                   titleTextStyle: TextStyle(
-                    color: Theme.of(context).colorScheme.secondary,
+                    color: Theme.of(context).colorScheme.primary,
                     fontWeight: FontWeight.bold,
                   ),
                   subtitleTextStyle: TextStyle(
-                    color: Theme.of(context).colorScheme.primary,
+                    color: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
               ),

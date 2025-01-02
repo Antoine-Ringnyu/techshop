@@ -12,7 +12,7 @@ unauthenticated -> profile page
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:techrx/features/Welcome/presentation/pages/welcome_page.dart';
-import 'package:techrx/features/home/presentation/pages/home_page.dart';
+import 'package:techrx/features/auth/presentation/pages/profile_page.dart';
 
 class AuthGate extends StatelessWidget {
   const AuthGate({super.key});
@@ -38,7 +38,7 @@ class AuthGate extends StatelessWidget {
         final session = snapshot.hasData ? snapshot.data!.session : null;
 
         if (session != null) {
-          return const HomePage();
+          return const ProfilePage();
         } else {
           return const WelcomePage();
         }

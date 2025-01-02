@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:techrx/features/auth/data/auth_service.dart';
-import 'package:techrx/features/home/presentation/components/my_drawer_tile.dart';
+import 'package:techrx/features/auth/presentation/components/my_drawer_tile.dart';
 import 'package:techrx/features/searchTickets/presentation/pages/search_page.dart';
 
 class MyDrawer extends StatelessWidget {

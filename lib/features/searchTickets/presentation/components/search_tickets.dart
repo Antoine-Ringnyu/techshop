@@ -12,10 +12,10 @@ class SearchTickets extends StatefulWidget {
 }
 
 class _SearchTicketsState extends State<SearchTickets> {
-  //get the search cubit
+  // Get the search cubit
   late final searchCubit = context.read<SearchCubit>();
 
-  //controller
+  // Controller
   final TextEditingController searchController = TextEditingController();
 
   void onSearchChanged() {
@@ -37,9 +37,9 @@ class _SearchTicketsState extends State<SearchTickets> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
+    return Column(
       children: [
+        // Search text field
         Row(
           children: [
             Expanded(
@@ -50,18 +50,18 @@ class _SearchTicketsState extends State<SearchTickets> {
                     borderSide: BorderSide(color: Colors.grey[400]!),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  hintText: "Enter ticket ID or your contact",
+                  hintText: "Your contact or ticket ID ",
                   hintStyle: TextStyle(color: Colors.grey[500]!),
                   fillColor: Theme.of(context).colorScheme.surface,
                   filled: true,
 
-                  //prefixIcon
+                  // Prefix icon
                   prefixIcon: Icon(
                     Icons.search,
                     color: Theme.of(context).colorScheme.secondary,
                   ),
 
-                  //clear text icon button
+                  // Clear text icon button
                   suffixIcon: IconButton(
                     onPressed: () {
                       setState(() {
@@ -74,7 +74,7 @@ class _SearchTicketsState extends State<SearchTickets> {
                     ),
                   ),
 
-                  //border when selected
+                  // Border when selected
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
                         color: Theme.of(context).colorScheme.tertiary),
@@ -83,18 +83,14 @@ class _SearchTicketsState extends State<SearchTickets> {
                 ),
               ),
             ),
-
-            const SizedBox(
-              width: 4,
-            ),
-
-            //search iconbutton
+            const SizedBox(width: 4),
+            // Search icon button
             Container(
               padding: const EdgeInsets.all(4),
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.secondary,
+                color: Theme.of(context).colorScheme.primary,
                 border: Border.all(color: Colors.grey[400]!),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(12),
               ),
               child: IconButton(
                 icon: const Icon(
@@ -108,53 +104,84 @@ class _SearchTicketsState extends State<SearchTickets> {
           ],
         ),
 
-        //the search body
-        SizedBox(
-          child: BlocBuilder<SearchCubit, SearchState>(
-            builder: (context, state) {
-              //loaded
+        const SizedBox(
+          height: 10,
+        ),
+
+        // Search results dropdown
+        BlocBuilder<SearchCubit, SearchState>(
+          builder: (context, state) {
+            // Only show the dropdown when there is text in the search field
+            if (searchController.text.isNotEmpty) {
               if (state is SearchLoaded) {
-                //no tickets..
                 if (state.tickets.isEmpty) {
-                  return const Center(
-                    child: Text("No tickets found"),
+                  return _buildDropdownContent(
+                    "No tickets found",
                   );
                 }
-                //Tickets...
-                return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: state.tickets.length,
-                  itemBuilder: (context, index) {
-                    final ticket = state.tickets[index];
-                    return TicketTile(
-                      ticket: ticket!,
-                    );
-                  },
+
+                return _buildDropdownList(state.tickets);
+              }
+
+              if (state is SearchLoading) {
+                return _buildDropdownContent(
+                  "Loading...",
                 );
               }
 
-              //loading
-              else if (state is SearchLoading) {
-                return const Center(
-                  child: CircularProgressIndicator(),
+              if (state is SearchError) {
+                return _buildDropdownContent(
+                  state.message,
                 );
               }
-
-              //erroe
-              else if (state is SearchError) {
-                return Center(
-                  child: Text(state.message),
-                );
-              }
-
-              //default
-              return const Center(
-                child: Text("Start searching for Tickets..."),
-              );
-            },
-          ),
-        )
+            }
+            // Return empty if no input
+            return const SizedBox.shrink();
+          },
+        ),
       ],
+    );
+  }
+
+  // Widget to build the dropdown content
+  Widget _buildDropdownContent(String message) {
+    return Material(
+      color: Colors.transparent, // Transparent to show overlay
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          // color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Theme.of(context).colorScheme.surface),
+        ),
+        child: Center(child: Text(message)),
+      ),
+    );
+  }
+
+  // Widget to build the list of search results
+  Widget _buildDropdownList(List tickets) {
+    return Material(
+      color: Colors.transparent, // Transparent to show overlay
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: Colors.grey[100],
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Theme.of(context).colorScheme.surface),
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: List.generate(
+              tickets.length,
+              (index) {
+                final ticket = tickets[index];
+                return TicketTile(ticket: ticket!);
+              },
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

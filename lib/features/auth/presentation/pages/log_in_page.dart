@@ -42,7 +42,6 @@ class _LogInPageState extends State<LogInPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        
         //appbar
         appBar: AppBar(
           backgroundColor: Colors.transparent,
@@ -56,7 +55,6 @@ class _LogInPageState extends State<LogInPage> {
           //     ),
           //   ),
         ),
-
 
         //BODY
         body: ListView(
@@ -132,7 +130,7 @@ class _LogInPageState extends State<LogInPage> {
                     child: Text(
                       ' Register now.',
                       style: TextStyle(
-                          color: Theme.of(context).colorScheme.secondary,
+                          color: Theme.of(context).colorScheme.primary,
                           fontWeight: FontWeight.bold),
                     ),
                   ),

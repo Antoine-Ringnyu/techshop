@@ -29,7 +29,7 @@ class _CreateTicketState extends State<CreateTicket> {
   bool _emergency = false;
 
   // List to store images
-  List<File?> _images = [];
+  final List<File?> _images = [];
 
   // List to store uploaded image URLs
   List<String> imageUrls = [];
@@ -237,16 +237,19 @@ class _CreateTicketState extends State<CreateTicket> {
                                     children: [
                                       Padding(
                                           padding: const EdgeInsets.all(2.0),
-                                          child: Image.file(_images[i]!)),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            child: Image.file(_images[i]!,
+                                                // width: double.infinity,
+                                                fit: BoxFit.cover),
+                                          )),
                                       Positioned(
                                         top: 0,
                                         right: 0,
                                         child: IconButton(
-                                          icon: Icon(
-                                              Icons.disabled_by_default_sharp,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .tertiary),
+                                          icon: const Icon(Icons.cancel,
+                                              color: Colors.red),
                                           onPressed: () => setState(
                                             () => _images.removeAt(i),
                                           ),

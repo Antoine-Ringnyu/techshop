@@ -12,19 +12,19 @@ Map<String, dynamic> getTicketStatusAndColor(Ticket ticket) {
       statusText = 'Closed';
       break;
     case 'Completed':
-      statusColor = Colors.blue;
+      statusColor = Colors.green;
       statusText = 'Completed';
       break;
     case 'Pending':
-      statusColor = Colors.yellow;
+      statusColor = Colors.orange;
       statusText = 'Pending';
       break;
     case 'In_Progress':
-      statusColor = Colors.orange;
+      statusColor = Colors.blue;
       statusText = 'In Progress';
       break;
     default:
-      statusColor = Colors.yellow;
+      statusColor = Colors.orange;
       statusText = 'Pending';
   }
 
