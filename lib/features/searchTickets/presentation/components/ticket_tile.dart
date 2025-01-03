@@ -29,7 +29,7 @@ class TicketTile extends StatelessWidget {
           ),
         ),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.surface,
             borderRadius: BorderRadius.circular(12),
@@ -39,10 +39,18 @@ class TicketTile extends StatelessWidget {
             children: [
               Expanded(
                 child: ListTile(
-                  contentPadding: EdgeInsets.zero,
+                  contentPadding: const EdgeInsets.all(0), // Ensures no padding
+                  horizontalTitleGap: 0, // Removes the horizontal gap
+                  minVerticalPadding: 0, // Removes vertical padding
+                  dense: true,
+                  // contentPadding: EdgeInsets.zero,
                   title: Text(ticket.userName),
                   subtitle: SizedBox(
-                      height: 45, child: Text(ticket.issueDescription)),
+                      height: 45,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 4.0),
+                        child: Text(ticket.issueDescription),
+                      )),
                   titleTextStyle: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
                     fontWeight: FontWeight.bold,
@@ -51,6 +59,10 @@ class TicketTile extends StatelessWidget {
                     color: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
+              ),
+
+              const SizedBox(
+                width: 10,
               ),
               // Status color container
               Container(

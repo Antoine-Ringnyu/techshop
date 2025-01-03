@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:techrx/features/auth/presentation/components/my_button.dart';
-import 'package:techrx/features/ticket/data/datasources/ticket_db.dart';
+import 'package:techrx/features/ticket/data/supaabase_ticket_repo.dart';
 import 'package:techrx/features/ticket/domain/entities/ticket.dart';
 import 'package:techrx/features/ticket/presentation/components/my_ticket_textfield.dart';
 
@@ -17,7 +17,7 @@ class CreateTicket extends StatefulWidget {
 }
 
 class _CreateTicketState extends State<CreateTicket> {
-  final ticketDb = TicketDb();
+  final supabaseTicketRepo = SupaabaseTicketRepo();
 
   // Controllers
   final nameController = TextEditingController();
@@ -88,7 +88,7 @@ class _CreateTicketState extends State<CreateTicket> {
       imageUrl: imageUrls.join(','), // Store URLs as a comma-separated string
     );
 
-    await ticketDb.createTicket(newTicket);
+    await supabaseTicketRepo.createTicket(newTicket);
 
     // Reset state
     nameController.clear();
@@ -284,7 +284,12 @@ class _CreateTicketState extends State<CreateTicket> {
           const SizedBox(height: 50),
 
           // Submit button
-          MyButton(onTab: submit, text: "Submit Ticket"),
+          MyButton(
+            onTab: submit,
+            text: "Submit Ticket",
+            textColor: Theme.of(context).colorScheme.primary,
+            containerColor: Theme.of(context).colorScheme.tertiary,
+          ),
         ],
       ),
     );

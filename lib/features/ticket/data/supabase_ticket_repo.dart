@@ -1,7 +1,9 @@
+ /*
+
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:techrx/features/ticket/domain/entities/ticket.dart';
 
-class TicketDb {
+class SupabaseTicketRepo {
   //database tickets
   final database = Supabase.instance.client.from('tickets');
 
@@ -27,8 +29,14 @@ class TicketDb {
   }
 
   //update ticket
-  Future updateTicket(Ticket oldTicket, String newUserName, String newLocation,
-      String newContact, String newIssueDescription, String? newStatus, String? imageUrl) async {
+  Future updateTicket(
+      Ticket oldTicket,
+      String newUserName,
+      String newLocation,
+      String newContact,
+      String newIssueDescription,
+      String? newStatus,
+      String? imageUrl) async {
     await database.update({
       'userName': newUserName,
       'location': newLocation,
@@ -44,3 +52,5 @@ class TicketDb {
     await database.delete().eq('id', ticket.id!);
   }
 }
+
+*/

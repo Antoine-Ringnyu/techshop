@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:techrx/core/utils/ticket_utils.dart';
 import 'package:techrx/features/ticket/domain/entities/ticket.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class TicketPage extends StatefulWidget {
   final Ticket ticket;
@@ -14,15 +13,6 @@ class TicketPage extends StatefulWidget {
 class _TicketPageState extends State<TicketPage> {
   @override
   Widget build(BuildContext context) {
-    Future<void> makePhoneCall(String phoneNumber) async {
-      final Uri phoneUri = Uri(scheme: 'tel', path: phoneNumber);
-      if (await canLaunchUrl(phoneUri.toString() as Uri)) {
-        await launchUrl(phoneUri.toString() as Uri);
-      } else {
-        throw 'Could not launch $phoneNumber';
-      }
-    }
-
     // Parse the image URLs from the comma-separated string
     List<String> imageUrls = widget.ticket.imageUrl?.split(',') ?? [];
     final status = getTicketStatusAndColor(widget.ticket);
@@ -48,14 +38,6 @@ class _TicketPageState extends State<TicketPage> {
             floating: true,
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
-              // title: Text(
-              //   "T e c h R x",
-              //   textAlign: TextAlign.center,
-              //   style: TextStyle(
-              //     color: Theme.of(context).colorScheme.tertiary,
-              //     fontWeight: FontWeight.bold,
-              //   ),
-              // ),
               background: Image.asset(
                 'lib/assets/images/smile.jpg',
                 fit: BoxFit
@@ -117,7 +99,6 @@ class _TicketPageState extends State<TicketPage> {
                         // Add your onPressed functionality here
                         // FlutterPhoneDirectCaller.callNumber('+237 652605131');
                         // launch('tel:+237652605131');
-                        makePhoneCall('1234567890');
                       },
                       icon: Icon(
                         Icons.call, // You can change this to any other icon

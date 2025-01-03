@@ -60,15 +60,14 @@ class _WelcomePageState extends State<WelcomePage> {
               children: [
                 // Search and Create Ticket
                 Container(
-                  padding: const EdgeInsets.fromLTRB(30,120,30,50),
+                  padding: const EdgeInsets.fromLTRB(30, 120, 30, 50),
                   color: Theme.of(context).colorScheme.inversePrimary,
                   child: const CreateTicket(),
-                  
                 ),
 
                 // Sample Tickets
                 const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 15),
+                  padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 30),
                   child: SampleTickets(),
                 ),
                 // Container(
@@ -80,11 +79,11 @@ class _WelcomePageState extends State<WelcomePage> {
 
             // The floating dropdown from SearchTickets will be positioned above the other content
             const Positioned(
-              top:20, // You can adjust this value to control where the dropdown appears
+              top:
+                  20, // You can adjust this value to control where the dropdown appears
               left: 30,
               right: 30,
-              child:
-                  SearchTickets(), // It will overlay on top of the ListView
+              child: SearchTickets(), // It will overlay on top of the ListView
             ),
           ],
         ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:techrx/features/ticket/data/datasources/ticket_db.dart';
+import 'package:techrx/features/ticket/data/supaabase_ticket_repo.dart';
 
 class SampleTickets extends StatefulWidget {
   const SampleTickets({super.key});
@@ -9,7 +9,8 @@ class SampleTickets extends StatefulWidget {
 }
 
 class _SampleTicketsState extends State<SampleTickets> {
-  final ticketdb = TicketDb(); // Instance of TicketDb to access stream
+  final supabaseTicketRepo =
+      SupaabaseTicketRepo(); // Instance of TicketDb to access stream
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,7 @@ class _SampleTicketsState extends State<SampleTickets> {
       height: 250,
       child: StreamBuilder(
         // Listening to the stream from TicketDb
-        stream: ticketdb.stream,
+        stream: supabaseTicketRepo.stream,
 
         // Building UI based on stream data
         builder: (context, snapshot) {
@@ -40,40 +41,56 @@ class _SampleTicketsState extends State<SampleTickets> {
               final ticket = tickets[index];
 
               // Display each ticket's issue description
-              return Row(
-                // crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
+              return Column(
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(
-                            color:
-                                Theme.of(context).colorScheme.inversePrimary),
-                        borderRadius: BorderRadius.circular(8)),
-                    child: Icon(
-                      Icons.person,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
+                  Divider(
+                    color: Colors.grey[400],
                   ),
-                  const SizedBox(
-                    width: 25,
-                  ),
-                  Expanded(
-                    child: ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      // textColor: Colors.black,
-                      title: Text(ticket.userName),
-                      subtitle: Text(ticket.issueDescription),
-                      titleTextStyle: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
-                        fontWeight: FontWeight.bold,
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .inversePrimary),
+                            borderRadius: BorderRadius.circular(8)),
+                        child: Icon(
+                          Icons.person,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
                       ),
-                      subtitleTextStyle: TextStyle(
-                        color: Theme.of(context).colorScheme.secondary,
+                      const SizedBox(
+                        width: 25,
                       ),
-                    ),
+                      Expanded(
+                        child: ListTile(
+                          contentPadding:
+                              EdgeInsets.all(0), // Ensures no padding
+                          horizontalTitleGap: 0, // Removes the horizontal gap
+                          minVerticalPadding: 0, // Removes vertical padding
+                          dense:
+                              true, // Makes the ListTile more compact by reducing height
+                          title: Text(ticket.userName),
+                          subtitle: Padding(
+                            padding: EdgeInsets.only(
+                                top: 4.0), // Add vertical padding to subtitle
+                            child: Text(ticket.issueDescription),
+                          ),
+                          titleTextStyle: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          subtitleTextStyle: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               );
