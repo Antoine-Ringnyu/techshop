@@ -221,33 +221,32 @@ class _TicketPageState extends State<TicketPage> {
                       ),
                       const SizedBox(width: 25),
                       Expanded(
-                        child: imageUrls.isEmpty
-                            ? const Text(
-                                'No attachment',
-                                style: TextStyle(
-                                  color: Colors
-                                      .grey, // You can change this to match your theme
-                                  fontSize: 16,
-                                ),
-                              )
-                            : Row(
-                                children: imageUrls.map((url) {
-                                  return Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8.0),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(12),
-                                        child: Image.network(url,
-                                            // height: 200,
-                                            width: double.infinity,
-                                            fit: BoxFit.cover),
-                                      ),
+                          child: Row(
+                        children: imageUrls.isEmpty || imageUrls[0].isEmpty
+                            ? [
+                                Expanded(
+                                  child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(12),
+                                      child: Container(
+                                        child: const Text('Not Attachment'),
+                                      )),
+                                )
+                              ]
+                            : imageUrls.map((url) {
+                                return Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 2.0),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(12),
+                                      child: Image.network(url,
+                                          width: double.infinity,
+                                          fit: BoxFit.cover),
                                     ),
-                                  );
-                                }).toList(),
-                              ),
-                      ),
+                                  ),
+                                );
+                              }).toList(),
+                      )),
                     ],
                   ),
                 ],

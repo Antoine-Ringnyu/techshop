@@ -163,21 +163,26 @@ class _SearchTicketsState extends State<SearchTickets> {
   Widget _buildDropdownList(List tickets) {
     return Material(
       color: Colors.transparent, // Transparent to show overlay
-      child: Container(
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: Colors.grey[100],
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Theme.of(context).colorScheme.surface),
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(
+          maxHeight: 300.0, // Set your desired max height
         ),
-        child: SingleChildScrollView(
-          child: Column(
-            children: List.generate(
-              tickets.length,
-              (index) {
-                final ticket = tickets[index];
-                return TicketTile(ticket: ticket!);
-              },
+        child: Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Theme.of(context).colorScheme.surface),
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: List.generate(
+                tickets.length,
+                (index) {
+                  final ticket = tickets[index];
+                  return TicketTile(ticket: ticket!);
+                },
+              ),
             ),
           ),
         ),

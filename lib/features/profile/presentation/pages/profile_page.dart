@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:techrx/features/auth/data/auth_service.dart';
+import 'package:techrx/features/auth/data/supabase_auth_repo.dart';
 import 'package:techrx/features/auth/presentation/components/my_button.dart';
-import 'package:techrx/features/auth/presentation/components/circular_tag.dart';
-import 'package:techrx/features/auth/presentation/components/my_drawer.dart';
-import 'package:techrx/features/auth/presentation/components/recent_activity_tile.dart';
+import 'package:techrx/features/profile/presentation/components/circular_tag.dart';
+import 'package:techrx/features/profile/presentation/components/my_drawer.dart';
+import 'package:techrx/features/profile/presentation/components/recent_activity_tile.dart';
+import 'package:techrx/features/ticket/presentation/pages/create_ticket.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -14,28 +15,41 @@ class ProfilePage extends StatefulWidget {
 
 class _HomePageState extends State<ProfilePage> {
   //get auth service
-  final authService = AuthService();
+  final supabaseAuthRepo = SupabaseAuthRepo();
 
   //logout button pressed
   void logout() async {
-    await authService.signOut();
+    await supabaseAuthRepo.logout();
+  }
+
+  //user wants to create a ticket
+  void createTicket() {
+    showDialog(
+      context: context,
+      builder: (context) => const AlertDialog(
+        // title: Text("Create Ticket"),
+        content: SingleChildScrollView(child: CreateTicket()),
+      ),
+    );
   }
 
   //BUILD UI
   @override
   Widget build(BuildContext context) {
     //get user email
-    final currentEmail = authService.getCurrentUserEmail();
+    final currentUser = supabaseAuthRepo.getCurrentUser();
 
     //SCAFFOLD
     return Scaffold(
       //APP BAR
       appBar: AppBar(
         centerTitle: true,
-        title: Text(currentEmail.toString()),
+        title: const Text(
+            // currentUser!.userMetadata!['username'] ?? 'No phone available',
+            'T e c h R x'),
         foregroundColor: Theme.of(context).colorScheme.primary,
         actions: [
-          //upload new post button
+          //logout
           IconButton(onPressed: logout, icon: const Icon(Icons.logout_rounded)),
         ],
       ),
@@ -54,9 +68,11 @@ class _HomePageState extends State<ProfilePage> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Subtext
+                  // //TRYING OUT
+                  // Text(currentUser.toString()),
+                  // const Divider(),
                   Text(
-                    "Hello Antoine,",
+                    "Hello ${currentUser ?? 'Friend'}",
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.secondary,
                       fontSize: 18, // Adjusted font size for consistency
@@ -139,7 +155,7 @@ class _HomePageState extends State<ProfilePage> {
                         children: [
                           Expanded(
                             child: MyButton(
-                              onTab: () {},
+                              onTab: createTicket,
                               text: 'Create Ticket',
                               containerColor:
                                   Theme.of(context).colorScheme.tertiary,

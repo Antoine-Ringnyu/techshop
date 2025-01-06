@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:techrx/features/auth/data/auth_service.dart';
+import 'package:techrx/features/auth/data/supabase_auth_repo.dart';
 import 'package:techrx/features/auth/presentation/components/my_button.dart';
 import 'package:techrx/features/auth/presentation/components/my_text_field.dart';
 
@@ -13,7 +13,7 @@ class LogInPage extends StatefulWidget {
 
 class _LogInPageState extends State<LogInPage> {
   //get auth service
-  final authService = AuthService();
+  final supabaseAuthRepo = SupabaseAuthRepo();
 
   //text controllers
   final _emailController = TextEditingController();
@@ -27,7 +27,7 @@ class _LogInPageState extends State<LogInPage> {
 
     //attempt to login
     try {
-      await authService.signInWithEmailPassword(email, password);
+      await supabaseAuthRepo.loginWithEmailPassword(email, password);
       //pop this register page
       Navigator.pop(context);
     } catch (e) {

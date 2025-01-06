@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:techrx/features/auth/data/supabase_auth_repo.dart';
+import 'package:techrx/features/auth/domain/entities/app_user.dart';
 import 'package:techrx/features/auth/presentation/components/my_button.dart';
+import 'package:techrx/features/storage/data/supabase_storage_repo.dart';
 import 'package:techrx/features/ticket/data/supaabase_ticket_repo.dart';
 import 'package:techrx/features/ticket/domain/entities/ticket.dart';
 import 'package:techrx/features/ticket/presentation/components/my_ticket_textfield.dart';
@@ -18,6 +20,7 @@ class CreateTicket extends StatefulWidget {
 
 class _CreateTicketState extends State<CreateTicket> {
   final supabaseTicketRepo = SupaabaseTicketRepo();
+  final supabaseStorageRepo = SupabaseStorageRepo();
 
   // Controllers
   final nameController = TextEditingController();
@@ -32,7 +35,7 @@ class _CreateTicketState extends State<CreateTicket> {
   final List<File?> _images = [];
 
   // List to store uploaded image URLs
-  List<String> imageUrls = [];
+  List<String?> imageUrls = [];
 
   // Toggle emergency state
   void emergency(bool value) {
@@ -52,25 +55,38 @@ class _CreateTicketState extends State<CreateTicket> {
     }
   }
 
-  // Upload selected images and get their URLs
+  // Upload selected images and get their URLs using the new repository
   Future<void> uploadAttachment() async {
     try {
-      final storage = Supabase.instance.client.storage;
+      if (_images.isEmpty) {
+        imageUrls = []; // Set imageUrls to [null] if no images are picked
+        return;
+      }
       imageUrls.clear(); // Clear any previously stored URLs
 
-      for (int i = 0; i < _images.length; i++) {
-        final fileName =
-            'attachments/${DateTime.now().millisecondsSinceEpoch}_image$i.jpg';
-        await storage.from('attachments').upload(fileName, _images[i]!);
-
-        // Get the public URL of the uploaded image
-        final fileUrl = storage.from('attachments').getPublicUrl(fileName);
-
-        imageUrls.add(fileUrl);
-      }
+      // Use the SupabaseStorageRepo to upload images and get the URLs
+      imageUrls = await supabaseStorageRepo
+          .uploadImages(_images.map((e) => e!).toList());
     } catch (e) {
-      print("Error uploading images: $e");
+      throw Exception("Error uploading images: $e");
     }
+  }
+
+  //CURRENT USER
+  AppUser? currentUser;
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUser();
+  }
+
+  //GET CURRENT USER
+  void getCurrentUser() async {
+    final supabaseAuthRepo = SupabaseAuthRepo();
+    currentUser = await supabaseAuthRepo.getCurrentUser() as AppUser;
+
+    // print("Current user: $currentUser");
   }
 
 // Submit ticket
@@ -80,6 +96,8 @@ class _CreateTicketState extends State<CreateTicket> {
 
     // Prepare the new ticket with the image URLs
     final newTicket = Ticket(
+      userId: currentUser?.uid,
+      // userId: '123456',
       userName: nameController.text,
       location: locationController.text,
       contact: contactController.text,

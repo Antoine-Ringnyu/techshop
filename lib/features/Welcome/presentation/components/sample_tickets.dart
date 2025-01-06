@@ -70,14 +70,14 @@ class _SampleTicketsState extends State<SampleTickets> {
                       Expanded(
                         child: ListTile(
                           contentPadding:
-                              EdgeInsets.all(0), // Ensures no padding
+                              const EdgeInsets.all(0), // Ensures no padding
                           horizontalTitleGap: 0, // Removes the horizontal gap
                           minVerticalPadding: 0, // Removes vertical padding
                           dense:
                               true, // Makes the ListTile more compact by reducing height
                           title: Text(ticket.userName),
                           subtitle: Padding(
-                            padding: EdgeInsets.only(
+                            padding: const EdgeInsets.only(
                                 top: 4.0), // Add vertical padding to subtitle
                             child: Text(ticket.issueDescription),
                           ),

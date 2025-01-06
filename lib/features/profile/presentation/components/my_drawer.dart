@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:techrx/features/auth/data/auth_service.dart';
-import 'package:techrx/features/auth/presentation/components/my_drawer_tile.dart';
+import 'package:techrx/features/auth/data/supabase_auth_repo.dart';
+import 'package:techrx/features/profile/presentation/components/my_drawer_tile.dart';
 import 'package:techrx/features/searchTickets/presentation/pages/search_page.dart';
 
 class MyDrawer extends StatelessWidget {
   MyDrawer({super.key});
 
   //get auth service
-  final authService = AuthService();
+  final supabaseAuthRepo = SupabaseAuthRepo();
 
   //logout button pressed
   void logout() async {
-    await authService.signOut();
+    await supabaseAuthRepo.logout();
   }
 
   @override

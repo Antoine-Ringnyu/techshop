@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:techrx/features/auth/data/auth_service.dart';
+import 'package:techrx/features/auth/data/supabase_auth_repo.dart';
 import 'package:techrx/features/auth/presentation/components/my_button.dart';
 import 'package:techrx/features/auth/presentation/components/my_text_field.dart';
 
@@ -16,9 +16,10 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   //get auth service
-  final authService = AuthService();
+  final supabaseAuthRepo = SupabaseAuthRepo();
 
   //text controllers
+  final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
@@ -26,6 +27,7 @@ class _RegisterPageState extends State<RegisterPage> {
   //login button pressed
   void signUp() async {
     //prepare  data
+    final name = _nameController.text;
     final email = _emailController.text;
     final password = _passwordController.text;
     final confirmPassword = _confirmPasswordController.text;
@@ -38,7 +40,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
     //attempt to login
     try {
-      await authService.signUpWithEmailPassword(email, password);
+      await supabaseAuthRepo.registerWithEmailPassword(name, email, password);
 
       //pop this register page
       Navigator.pop(context);
@@ -54,7 +56,6 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-
         //appbar
         appBar: AppBar(
           backgroundColor: Colors.transparent,
@@ -68,7 +69,6 @@ class _RegisterPageState extends State<RegisterPage> {
           //     ),
           //   ),
         ),
-
 
         //BODY
         body: ListView(
@@ -98,6 +98,15 @@ class _RegisterPageState extends State<RegisterPage> {
               const SizedBox(
                 height: 25,
               ),
+              //email textfield
+              MyTextField(
+                  controller: _nameController,
+                  hintText: 'Name',
+                  obscureText: false),
+
+              const SizedBox(
+                height: 10,
+              ),
 
               //email textfield
               MyTextField(
@@ -121,9 +130,9 @@ class _RegisterPageState extends State<RegisterPage> {
 
               //password textfield
               MyTextField(
-                controller: _confirmPasswordController,
-                hintText: 'Confirm password',
-                obscureText: true),
+                  controller: _confirmPasswordController,
+                  hintText: 'Confirm password',
+                  obscureText: true),
 
               const SizedBox(
                 height: 25,

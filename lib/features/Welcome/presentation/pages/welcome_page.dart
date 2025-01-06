@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:techrx/features/Welcome/presentation/components/sample_tickets.dart';
 import 'package:techrx/features/auth/presentation/pages/auth_page.dart';
-import 'package:techrx/features/auth/presentation/components/my_drawer.dart';
+import 'package:techrx/features/profile/presentation/components/my_drawer.dart';
 import 'package:techrx/features/searchTickets/presentation/components/search_tickets.dart';
 import 'package:techrx/features/ticket/presentation/pages/create_ticket.dart';
 

@@ -9,21 +9,20 @@ class AppUser {
     required this.uid,
   });
 
-  //convert app user -> json
-  Map<String, dynamic> toJason() {
-    return {
-      'uid': uid,
-      'email': email,
-      'name': name,
-    };
+  //map to appuser
+  factory AppUser.fromMap(Map<String, dynamic> map) {
+    return AppUser(
+        name: map['name'] as String,
+        email: map['email'] as String,
+        uid: map['uid'] as String);
   }
 
-  //conver json -> app user
-  factory AppUser.fromJson(Map<String, dynamic> jsonUser) {
-    return AppUser(
-      name: jsonUser['name'],
-      email: jsonUser['email'],
-      uid: jsonUser['uid'],
-    );
+  //appuser to map
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'email': email,
+      'uid': uid,
+    };
   }
 }
