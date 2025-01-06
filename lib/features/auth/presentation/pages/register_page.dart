@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:techrx/features/auth/data/supabase_auth_repo.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:techrx/features/auth/presentation/components/my_button.dart';
 import 'package:techrx/features/auth/presentation/components/my_text_field.dart';
+import 'package:techrx/features/auth/presentation/cubits/auth_cubit.dart';
 
 class RegisterPage extends StatefulWidget {
   final void Function()? togglePages;
@@ -15,8 +16,8 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  //get auth service
-  final supabaseAuthRepo = SupabaseAuthRepo();
+
+  //auth cubit
 
   //text controllers
   final _nameController = TextEditingController();
@@ -32,24 +33,31 @@ class _RegisterPageState extends State<RegisterPage> {
     final password = _passwordController.text;
     final confirmPassword = _confirmPasswordController.text;
 
-    //check that passwords match
-    if (password != confirmPassword) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text("Passwords don't match")));
-    }
+    final authCubit = context.read<AuthCubit>();
 
-    //attempt to login
-    try {
-      await supabaseAuthRepo.registerWithEmailPassword(name, email, password);
+    //ensure the fields aren't empty
+    if (email.isNotEmpty &&
+        name.isNotEmpty &&
+        password.isNotEmpty &&
+        confirmPassword.isNotEmpty) {
+      //ensure passwords match
+      if (password == confirmPassword) {
+        authCubit.register(name, email, password);
+      }
 
-      //pop this register page
-      Navigator.pop(context);
-    } catch (e) {
-      if (mounted) {
+      //password don't match
+      else {
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Error : $e')));
+            .showSnackBar(const SnackBar(content: Text('Passwords do not match')));
       }
     }
+
+    //fields are empty -> display error
+    else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Please complete all fields')));
+    }
+    
   }
 
   @override
@@ -60,14 +68,6 @@ class _RegisterPageState extends State<RegisterPage> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           centerTitle: true,
-          // title: Text(
-          //     'Register',
-          //     textAlign: TextAlign.center,
-          //     style: TextStyle(
-          //       fontSize: 24,
-          //       color: Theme.of(context).colorScheme.primary,
-          //     ),
-          //   ),
         ),
 
         //BODY

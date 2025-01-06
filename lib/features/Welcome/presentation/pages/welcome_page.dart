@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:techrx/features/Welcome/presentation/components/sample_tickets.dart';
 import 'package:techrx/features/auth/presentation/pages/auth_page.dart';
-import 'package:techrx/features/profile/presentation/components/my_drawer.dart';
 import 'package:techrx/features/searchTickets/presentation/components/search_tickets.dart';
 import 'package:techrx/features/ticket/presentation/pages/create_ticket.dart';
 
@@ -33,7 +32,10 @@ class _WelcomePageState extends State<WelcomePage> {
               color: Theme.of(context).colorScheme.tertiary,
             ),
           ),
-          centerTitle: true,
+
+          //flexible appbar
+
+          // centerTitle: true,
           actions: [
             // Logout button
             IconButton(
@@ -51,7 +53,7 @@ class _WelcomePageState extends State<WelcomePage> {
         ),
 
         // Drawer
-        drawer: MyDrawer(),
+        // drawer: MyDrawer(),
 
         // Body content
         body: Stack(

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:techrx/features/auth/data/supabase_auth_repo.dart';
 import 'package:techrx/features/auth/presentation/components/my_button.dart';
 import 'package:techrx/features/auth/presentation/components/my_text_field.dart';
+import 'package:techrx/features/auth/presentation/cubits/auth_cubit.dart';
 
 class LogInPage extends StatefulWidget {
   final void Function()? togglePages;
@@ -25,17 +27,27 @@ class _LogInPageState extends State<LogInPage> {
     final email = _emailController.text;
     final password = _passwordController.text;
 
-    //attempt to login
-    try {
-      await supabaseAuthRepo.loginWithEmailPassword(email, password);
-      //pop this register page
-      Navigator.pop(context);
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Error : $e')));
-      }
+    //auth cubit
+    final authCubit = context.read<AuthCubit>();
+
+    //ensure that the email and password fiels are not empty
+    if (email.isNotEmpty && password.isNotEmpty) {
+      //login
+      authCubit.login(email, password);
     }
+
+    //display error if some fields are empty
+    else {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Please enter both email and password')));
+    }
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 
   @override
