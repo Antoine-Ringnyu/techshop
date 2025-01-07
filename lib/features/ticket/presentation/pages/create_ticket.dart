@@ -305,8 +305,10 @@ class _CreateTicketState extends State<CreateTicket> {
           MyButton(
             onTab: submit,
             text: "Submit Ticket",
-            textColor: Theme.of(context).colorScheme.primary,
+            textColor: Theme.of(context).colorScheme.inversePrimary,
             containerColor: Theme.of(context).colorScheme.tertiary,
+            borderColor: Theme.of(context).colorScheme.inversePrimary,
+            borderRadius: 42,
           ),
         ],
       ),

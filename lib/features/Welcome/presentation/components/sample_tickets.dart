@@ -17,7 +17,7 @@ class _SampleTicketsState extends State<SampleTickets> {
     return SizedBox(
       height: 250,
       child: StreamBuilder(
-        // Listening to the stream from TicketDb
+        // Listening to the stream from supabaeTicketRepo
         stream: supabaseTicketRepo.stream,
 
         // Building UI based on stream data
@@ -35,7 +35,7 @@ class _SampleTicketsState extends State<SampleTickets> {
             shrinkWrap: true,
 
             // Number of tickets
-            itemCount: 7,
+            itemCount: tickets.length,
             itemBuilder: (context, index) {
               // Each ticket in the list
               final ticket = tickets[index];

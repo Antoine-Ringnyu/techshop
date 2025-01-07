@@ -37,12 +37,12 @@ class MyButton extends StatelessWidget {
             color: borderColor ??
                 Theme.of(context)
                     .colorScheme
-                    .primary, // Use passed color or default to theme
-            width: 2,
+                    .secondary, // Use passed color or default to theme
+            // width: 2,
           ),
           // curve corners with optional borderRadius
           borderRadius: BorderRadius.circular(
-              borderRadius ?? 12), // Use passed borderRadius or default to 12
+              borderRadius ?? 24), // Use passed borderRadius or default to 12
         ),
         child: Center(
           // button text

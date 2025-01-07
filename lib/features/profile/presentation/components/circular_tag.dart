@@ -4,14 +4,16 @@ class CircularTag extends StatelessWidget {
   final String value;
   final String label;
   final Color fill;
-  final Color borderOutline;
+  final Color borderColor;
+  final Color valueColor;
 
   const CircularTag({
     super.key,
     this.value = '00', // Default value for 'value' is '00'
     this.label = '', // Default value for 'label' is an empty string
+    this.valueColor = Colors.white,
     this.fill = Colors.grey, // Default container color is grey
-    this.borderOutline = Colors.grey, // Default border color is grey
+    this.borderColor = Colors.grey, // Default border color is grey
   });
 
   @override
@@ -23,8 +25,8 @@ class CircularTag extends StatelessWidget {
           height: 50, // Set the height to be the same as the width
 
           decoration: BoxDecoration(
-            border: Border.all(
-                color: borderOutline), // Use the optional border color
+            border:
+                Border.all(color: borderColor), // Use the optional border color
             color: fill, // Use the optional container color
             borderRadius: BorderRadius.circular(45),
           ),
@@ -32,14 +34,14 @@ class CircularTag extends StatelessWidget {
             child: Text(
               value,
               style: TextStyle(
-                color: Theme.of(context).colorScheme.inversePrimary,
+                color: valueColor,
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
               ),
             ),
           ),
         ),
-        SizedBox(height: 2),
+        const SizedBox(height: 2),
         Text(
           label,
           style: TextStyle(

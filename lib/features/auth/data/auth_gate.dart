@@ -8,7 +8,6 @@ unauthenticated -> profile page
 
 */
 
-
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:techrx/features/Welcome/presentation/pages/welcome_page.dart';
@@ -20,28 +19,28 @@ class AuthGate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      //listen to auth state changes
-      stream: Supabase.instance.client.auth.onAuthStateChange,
+        //listen to auth state changes
+        stream: Supabase.instance.client.auth.onAuthStateChange,
 
-      //builds appropriate pages base on the auth state
-      builder: (context, snapshot) {
-        //loading .........
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        }
+        //builds appropriate pages base on the auth state
+        builder: (context, snapshot) {
+          //loading .........
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
 
-        //check if the  is a valid session currently
-        final session = snapshot.hasData ? snapshot.data!.session : null;
+          //check if the  is a valid session currently
+          final session = snapshot.hasData ? snapshot.data!.session : null;
 
-        if (session != null) {
-          return const ProfilePage();
-        } else {
-          return const WelcomePage();
-        }
-      });
+          if (session != null) {
+            return const ProfilePage();
+          } else {
+            return const WelcomePage();
+          }
+        });
   }
 }
