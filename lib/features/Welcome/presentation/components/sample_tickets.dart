@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:techrx/features/ticket/data/supaabase_ticket_repo.dart';
+import 'package:techrx/features/ticket/presentation/pages/ticket_detail_page.dart';
+import 'package:techrx/features/ticket/presentation/pages/ticket_page.dart';
 
 class SampleTickets extends StatefulWidget {
   const SampleTickets({super.key});
@@ -18,7 +20,7 @@ class _SampleTicketsState extends State<SampleTickets> {
       height: 250,
       child: StreamBuilder(
         // Listening to the stream from supabaeTicketRepo
-        stream: supabaseTicketRepo.fetchTicket("652605131"),
+        stream: supabaseTicketRepo.fetchTicket(652605131),
 
         // Building UI based on stream data
         builder: (context, snapshot) {
@@ -87,6 +89,14 @@ class _SampleTicketsState extends State<SampleTickets> {
                           ),
                           subtitleTextStyle: TextStyle(
                             color: Theme.of(context).colorScheme.secondary,
+                          ),
+
+                          //..............the ontap function...............
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TicketDetailPage(id: 100),
+                            ),
                           ),
                         ),
                       ),
