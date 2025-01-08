@@ -21,22 +21,21 @@ class CreateTicket extends StatefulWidget {
 class _CreateTicketState extends State<CreateTicket> {
   final supabaseTicketRepo = SupaabaseTicketRepo();
   final supabaseStorageRepo = SupabaseStorageRepo();
-
+  //...............................................................................
   // Controllers
   final nameController = TextEditingController();
   final contactController = TextEditingController();
   final issueDescriptionController = TextEditingController();
   final locationController = TextEditingController();
-
-  // Emergency state
-  bool _emergency = false;
-
+  
   // List to store images
   final List<File?> _images = [];
-
   // List to store uploaded image URLs
   List<String?> imageUrls = [];
 
+
+  // Emergency state
+  bool _emergency = false;
   // Toggle emergency state
   void emergency(bool value) {
     setState(() {
@@ -119,6 +118,9 @@ class _CreateTicketState extends State<CreateTicket> {
       imageUrls.clear(); // Clear the URLs as well
     });
   }
+
+
+  
 
   @override
   void dispose() {

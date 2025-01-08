@@ -4,7 +4,21 @@ import 'package:techrx/features/ticket/domain/repos/ticket_repo.dart';
 // Import Supabase package
 
 class SupaabaseTicketRepo implements TicketRepo {
-  final SupabaseClient supabase = Supabase.instance.client;
+  final supabase = Supabase.instance.client;
+
+  //...................................all testings go in herr...................................
+
+  @override
+  Stream<List<Ticket>> fetchTicket(String query) {
+    return supabase
+        .from('tickets')
+        .stream(primaryKey: ['id']) // Listen for changes in the tickets table
+        .eq('contact', query)
+        .map((data) =>
+            data.map((ticketMap) => Ticket.fromMap(ticketMap)).toList());
+  }
+
+  //...................................end of testing section...................................
 
   @override
   Future<void> createTicket(Ticket newTicket) async {
@@ -33,7 +47,7 @@ class SupaabaseTicketRepo implements TicketRepo {
     } catch (e) {
       throw Exception('Error searching tickets: $e');
     }
-  }
+  } 
 
   @override
   Future<List<Ticket>> fetchTicketByContactAndId(String query) async {
@@ -78,8 +92,8 @@ class SupaabaseTicketRepo implements TicketRepo {
       'location': newLocation,
       'contact': newContact,
       'issueDescription': newIssueDescription,
-      'status': newStatus!,
-      'imageUrl': imageUrl!,
+      'status': newStatus,
+      'imageUrl': imageUrl,
     }).eq('id', oldTicket.id!);
   }
 }

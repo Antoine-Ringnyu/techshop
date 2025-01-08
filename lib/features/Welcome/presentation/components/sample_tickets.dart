@@ -18,7 +18,7 @@ class _SampleTicketsState extends State<SampleTickets> {
       height: 250,
       child: StreamBuilder(
         // Listening to the stream from supabaeTicketRepo
-        stream: supabaseTicketRepo.stream,
+        stream: supabaseTicketRepo.fetchTicket("652605131"),
 
         // Building UI based on stream data
         builder: (context, snapshot) {
