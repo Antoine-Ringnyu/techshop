@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:techrx/features/auth/data/supabase_auth_repo.dart';
 import 'package:techrx/features/profile/presentation/components/my_drawer_tile.dart';
-import 'package:techrx/features/searchTickets/presentation/pages/search_page.dart';
 
 class MyDrawer extends StatelessWidget {
   MyDrawer({super.key});
@@ -76,14 +75,14 @@ class MyDrawer extends StatelessWidget {
                   title: 'S E A R C H',
                   icon: Icons.search,
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SearchPage(),
-                      ),
-                    );
-                    //just poping the drawer menu
-                    Navigator.of(context).pop();
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => const SearchPage(),
+                    //   ),
+                    // );
+                    // //just poping the drawer menu
+                    // Navigator.of(context).pop();
                   }),
 
               //setting tile

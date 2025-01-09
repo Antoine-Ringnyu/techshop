@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:techrx/core/utils/ticket_utils.dart';
 import 'package:techrx/features/searchTickets/presentation/components/ticket_tile.dart';
 import 'package:techrx/features/searchTickets/presentation/cubit/search_cubit.dart';
 import 'package:techrx/features/searchTickets/presentation/cubit/search_state.dart';
+import 'package:techrx/features/ticket/domain/entities/ticket.dart';
+import 'package:techrx/features/ticket/presentation/pages/ticket_detail_page.dart';
+import 'package:techrx/features/ticket/presentation/pages/ticket_page.dart';
 
 class SearchTickets extends StatefulWidget {
   const SearchTickets({super.key});
@@ -180,7 +184,23 @@ class _SearchTicketsState extends State<SearchTickets> {
                 tickets.length,
                 (index) {
                   final ticket = tickets[index];
-                  return TicketTile(ticket: ticket!);
+                  Ticket ticketData = ticket;
+                  // Call the utility function to get the status and color
+                  final status = getTicketStatusAndColor(ticketData);
+                  final statusColor = status['statusColor'];
+                  return TicketTile(
+                    userName: ticketData.userName,
+                    issueDescription: ticketData.issueDescription,
+                    statusColor: statusColor,
+                    detailPage: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TicketPage(
+                          id: ticketData.id!,
+                        ),
+                      ),
+                    ),
+                  );
                 },
               ),
             ),

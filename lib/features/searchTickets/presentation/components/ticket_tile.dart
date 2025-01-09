@@ -1,33 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:techrx/features/ticket/domain/entities/ticket.dart';
-import 'package:techrx/features/ticket/presentation/pages/ticket_page.dart';
-import 'package:techrx/core/utils/ticket_utils.dart'; // Import the utility function
 
 class TicketTile extends StatelessWidget {
-  final Ticket ticket;
+  // final Ticket ticket;
+  final String? ticketId;
+  final String userName;
+  final String issueDescription;
+  final Color? statusColor;
+  final Function detailPage;
 
   const TicketTile({
     super.key,
-    required this.ticket,
+    // required this.ticket,
+    this.ticketId,
+    required this.userName,
+    required this.issueDescription,
+    this.statusColor,
+    required this.detailPage,
   });
 
   @override
   Widget build(BuildContext context) {
     // Call the utility function to get the status and color
-    final status = getTicketStatusAndColor(ticket);
-    final statusColor = status['statusColor'];
+    // final status = getTicketStatusAndColor(ticket);
+    // final statusColor = status['statusColor'];
 
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
       child: GestureDetector(
-        onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => TicketPage(
-              ticket: ticket,
-            ),
-          ),
-        ),
+        onTap: () => detailPage(),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           decoration: BoxDecoration(
@@ -44,12 +44,12 @@ class TicketTile extends StatelessWidget {
                   minVerticalPadding: 0, // Removes vertical padding
                   dense: true,
                   // contentPadding: EdgeInsets.zero,
-                  title: Text(ticket.userName),
+                  title: Text(userName),
                   subtitle: SizedBox(
                       height: 45,
                       child: Padding(
                         padding: const EdgeInsets.only(top: 4.0),
-                        child: Text(ticket.issueDescription),
+                        child: Text(issueDescription),
                       )),
                   titleTextStyle: TextStyle(
                     color: Theme.of(context).colorScheme.primary,

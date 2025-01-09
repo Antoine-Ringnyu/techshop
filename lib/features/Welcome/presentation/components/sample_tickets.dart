@@ -20,7 +20,7 @@ class _SampleTicketsState extends State<SampleTickets> {
       height: 250,
       child: StreamBuilder(
         // Listening to the stream from supabaeTicketRepo
-        stream: supabaseTicketRepo.fetchTicket(652605131),
+        stream: supabaseTicketRepo.stream,
 
         // Building UI based on stream data
         builder: (context, snapshot) {
@@ -95,7 +95,7 @@ class _SampleTicketsState extends State<SampleTickets> {
                           onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => TicketDetailPage(id: 100),
+                              builder: (context) => TicketPage(id: ticket.id!),
                             ),
                           ),
                         ),

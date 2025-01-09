@@ -13,7 +13,7 @@ class SupaabaseTicketRepo implements TicketRepo {
     return supabase
         .from('tickets')
         .stream(primaryKey: ['id']) // Listen for changes in the tickets table
-        .eq('contact', query)
+        .eq('id', query)
         .map((data) =>
             data.map((ticketMap) => Ticket.fromMap(ticketMap)).toList());
   }
