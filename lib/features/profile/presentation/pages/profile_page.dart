@@ -15,15 +15,18 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<ProfilePage> {
-  //get auth service
+  // get auth service
   final supabaseAuthRepo = SupabaseAuthRepo();
 
-  //logout button pressed
+  // current user data
+  AppUser? currentUser;
+
+  // logout button pressed
   void logout() async {
     await supabaseAuthRepo.logout();
   }
 
-  //user wants to create a ticket
+  // user wants to create a ticket
   void createTicket() {
     showDialog(
       context: context,
@@ -34,45 +37,33 @@ class _HomePageState extends State<ProfilePage> {
     );
   }
 
-  //CURRENT USER
-  AppUser? currentUser;
-
   @override
   void initState() {
     super.initState();
-    getCurrentUser();
+    getCurrentUser(); // Fetch user data when the page loads
   }
 
-  //GET CURRENT USER
+  // GET CURRENT USER
   void getCurrentUser() async {
-    final supabaseAuthRepo = SupabaseAuthRepo();
-    currentUser = await supabaseAuthRepo.getCurrentUser() as AppUser;
-
-    // print("Current user: $currentUser");
+    final user = await supabaseAuthRepo.getCurrentUser() as AppUser;
+    setState(() {
+      currentUser = user; // Update state to trigger UI rebuild
+    });
   }
 
-  //BUILD UI
+  // BUILD UI
   @override
   Widget build(BuildContext context) {
-    //SCAFFOLD
     return Scaffold(
-      //APP BAR
       appBar: AppBar(
         centerTitle: true,
-        // title: const Text(
-        //     // currentUser!.userMetadata!['username'] ?? 'No phone available',
-        //     'T e c h R x'),
         foregroundColor: Theme.of(context).colorScheme.primary,
         actions: [
-          //logout
+          // logout button
           IconButton(onPressed: logout, icon: const Icon(Icons.logout_rounded)),
         ],
       ),
-
-      //DRAWER
       drawer: MyDrawer(),
-
-      //BODY
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
@@ -83,20 +74,15 @@ class _HomePageState extends State<ProfilePage> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // //TRYING OUT
-                  // Text(currentUser.toString()),
-                  // const Divider(),
+                  // Check if currentUser is not null before showing its info
                   Text(
-                    "Hello ${currentUser?.name ?? 'Friend'}",
+                    "Hello ${currentUser?.name ?? 'Friend'}", // Default to 'Friend' if user is null
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.secondary,
-                      fontSize: 18, // Adjusted font size for consistency
+                      fontSize: 18,
                     ),
                   ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-
+                  const SizedBox(height: 8),
                   // Grand text
                   RichText(
                     text: TextSpan(
@@ -118,24 +104,23 @@ class _HomePageState extends State<ProfilePage> {
                         const TextSpan(
                           text: 'Rx',
                           style: TextStyle(
-                            color: Colors.red, // Set "Rx" text color to red
+                            color: Colors.red,
                             fontSize: 28,
                           ),
                         ),
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
 
               const SizedBox(height: 50), // Adds space between sections
 
-              //ABOUT MY TICKETS
+              // ABOUT MY TICKETS
               Container(
                 width: double.infinity,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 25),
-
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.inversePrimary,
                   border: Border.all(
@@ -143,13 +128,10 @@ class _HomePageState extends State<ProfilePage> {
                   ),
                   borderRadius: BorderRadius.circular(12),
                 ),
-
-                //total number of tickets
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-
-                  //ticket statistics
                   children: [
+                    // Ticket statistics row
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -186,13 +168,13 @@ class _HomePageState extends State<ProfilePage> {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      "We don't just fix your devices, We restore trust. \nOur experts treat your tech with care because every devices has a story, \nLet's write the next chapter together.",
+                      "We don't just fix your devices, We restore trust. \nOur experts treat your tech with care because every device has a story, \nLet's write the next chapter together.",
                       style: TextStyle(
                           color: Theme.of(context).colorScheme.secondary),
                     ),
                     const SizedBox(height: 24),
 
-                    //action section
+                    // Action section (Create Ticket and View Tickets buttons)
                     Row(
                       children: [
                         Expanded(
@@ -216,7 +198,7 @@ class _HomePageState extends State<ProfilePage> {
                               Theme.of(context).colorScheme.inversePrimary,
                         ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -236,18 +218,15 @@ class _HomePageState extends State<ProfilePage> {
                 color: Colors.grey[400],
               ),
               const SizedBox(height: 8),
+
               // Adds space between sections
               const RecentActivityTile(),
-
-              //divider
               const SizedBox(height: 18),
               Divider(
                 color: Colors.grey[400],
               ),
               const SizedBox(height: 8),
               const RecentActivityTile(),
-
-              //divider
               const SizedBox(height: 18),
               Divider(
                 color: Colors.grey[400],
