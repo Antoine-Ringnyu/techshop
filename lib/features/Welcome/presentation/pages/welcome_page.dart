@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:techrx/features/Welcome/presentation/components/sample_tickets.dart';
 import 'package:techrx/features/auth/presentation/pages/auth_page.dart';
-import 'package:techrx/features/profile/presentation/components/my_drawer.dart';
 import 'package:techrx/features/searchTickets/presentation/components/search_tickets.dart';
 import 'package:techrx/features/ticket/presentation/pages/create_ticket.dart';
 
@@ -25,33 +24,53 @@ class _WelcomePageState extends State<WelcomePage> {
           backgroundColor: Theme.of(context).colorScheme.primary,
 
           // App logo
-          title: Text(
-            'T e c h R x',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 24,
-              color: Theme.of(context).colorScheme.tertiary,
+          title: Padding(
+            padding: const EdgeInsets.only(left: 16.0),
+            child: RichText(
+              text: TextSpan(
+                children: <TextSpan>[
+                  TextSpan(
+                    text: 'Tech',
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.inversePrimary,
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  TextSpan(
+                    text: 'Rx',
+                    style: TextStyle(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .tertiary, // Set "Rx" text color to red
+                      fontSize: 28,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-          centerTitle: true,
+          // centerTitle: true,
           actions: [
             // Logout button
-            IconButton(
-              color: Theme.of(context).colorScheme.inversePrimary,
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const AuthPage(),
+            Padding(
+              padding: const EdgeInsets.only(right: 16.0),
+              child: IconButton(
+                color: Theme.of(context).colorScheme.inversePrimary,
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AuthPage(),
+                  ),
                 ),
+                icon: const Icon(Icons.person_outlined),
+                iconSize: 32,
               ),
-              icon: const Icon(Icons.person_outlined),
-              iconSize: 32,
             ),
           ],
         ),
 
         // Drawer
-        drawer: MyDrawer(),
+        // drawer: MyDrawer(),
 
         // Body content
         body: Stack(

@@ -5,7 +5,6 @@ import 'package:techrx/features/searchTickets/presentation/components/ticket_til
 import 'package:techrx/features/searchTickets/presentation/cubit/search_cubit.dart';
 import 'package:techrx/features/searchTickets/presentation/cubit/search_state.dart';
 import 'package:techrx/features/ticket/domain/entities/ticket.dart';
-import 'package:techrx/features/ticket/presentation/pages/ticket_detail_page.dart';
 import 'package:techrx/features/ticket/presentation/pages/ticket_page.dart';
 
 class SearchTickets extends StatefulWidget {

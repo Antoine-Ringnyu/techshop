@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:techrx/features/ticket/data/supaabase_ticket_repo.dart';
-import 'package:techrx/features/ticket/presentation/pages/ticket_detail_page.dart';
 import 'package:techrx/features/ticket/presentation/pages/ticket_page.dart';
 
 class SampleTickets extends StatefulWidget {

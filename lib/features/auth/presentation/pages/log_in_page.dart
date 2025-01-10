@@ -109,6 +109,10 @@ class _LogInPageState extends State<LogInPage> {
               MyButton(
                 onTab: login,
                 text: 'Login',
+                textColor: Theme.of(context).colorScheme.inversePrimary,
+                containerColor: Theme.of(context).colorScheme.tertiary,
+                borderColor: Theme.of(context).colorScheme.inversePrimary,
+                borderRadius: 42,
               ),
 
               const SizedBox(

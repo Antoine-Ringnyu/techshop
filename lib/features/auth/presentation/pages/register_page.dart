@@ -142,6 +142,10 @@ class _RegisterPageState extends State<RegisterPage> {
               MyButton(
                 onTab: signUp,
                 text: 'Register',
+                textColor: Theme.of(context).colorScheme.inversePrimary,
+                containerColor: Theme.of(context).colorScheme.tertiary,
+                borderColor: Theme.of(context).colorScheme.inversePrimary,
+                borderRadius: 42,
               ),
 
               const SizedBox(

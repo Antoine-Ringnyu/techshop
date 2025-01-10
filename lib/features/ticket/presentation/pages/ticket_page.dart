@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:techrx/core/utils/ticket_utils.dart';
 import 'package:techrx/features/ticket/data/supaabase_ticket_repo.dart';
 import 'package:techrx/features/ticket/domain/entities/ticket.dart';
+import 'package:techrx/features/ticket/presentation/components/ticket_info_tile.dart';
 
 class TicketPage extends StatefulWidget {
   final int id;
@@ -152,58 +153,40 @@ class _TicketPageState extends State<TicketPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        //display username
+                        TicketInfoTile(
+                          icon: Icons.person_outline,
+                          text: ticket.userName,
+                          bold: FontWeight.bold,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                        ),
+
+                        const SizedBox(height: 30),
+
                         // Display location
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.location_on_outlined,
-                              color: Theme.of(context).colorScheme.primary,
-                              size: 30,
-                            ),
-                            const SizedBox(width: 25),
-                            Expanded(
-                              child: Text(
-                                ticket.location,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color:
-                                        Theme.of(context).colorScheme.secondary,
-                                    fontSize: 18),
-                              ),
-                            )
-                          ],
+                        TicketInfoTile(
+                          icon: Icons.location_on_outlined,
+                          text: ticket.location,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                         ),
                         const SizedBox(height: 30),
 
                         // Display issue description
-                        Row(
+                        TicketInfoTile(
+                          icon: Icons.notes,
+                          text: ticket.issueDescription,
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Icon(
-                              Icons.notes,
-                              color: Theme.of(context).colorScheme.primary,
-                              size: 30,
-                            ),
-                            const SizedBox(width: 25),
-                            Expanded(
-                              child: Text(
-                                ticket.issueDescription,
-                                style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                ),
-                              ),
-                            )
-                          ],
                         ),
+
                         const SizedBox(height: 30),
 
                         // Display contact information
+
                         Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Icon(
-                              Icons.contact_phone_outlined,
+                              Icons.local_phone_outlined,
                               color: Theme.of(context).colorScheme.primary,
                               size: 30,
                             ),
@@ -252,8 +235,7 @@ class _TicketPageState extends State<TicketPage> {
                                             borderRadius:
                                                 BorderRadius.circular(12),
                                             child: Container(
-                                              child:
-                                                  const Text('Not Attachment'),
+                                              child: const Text('Not Attachment'),
                                             )),
                                       )
                                     ]
