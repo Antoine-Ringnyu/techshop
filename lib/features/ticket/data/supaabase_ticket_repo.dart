@@ -47,7 +47,7 @@ class SupaabaseTicketRepo implements TicketRepo {
     } catch (e) {
       throw Exception('Error searching tickets: $e');
     }
-  } 
+  }
 
   @override
   Future<List<Ticket>> fetchTicketByContactAndId(String query) async {
@@ -78,22 +78,26 @@ class SupaabaseTicketRepo implements TicketRepo {
   }
 
   @override
-  Future<void> updateTicket(
-      Ticket oldTicket,
-      String newUserName,
-      String newLocation,
-      String newContact,
-      String newIssueDescription,
-      String? newStatus,
-      String? imageUrl) async {
+  Future<void> updateTicket(Ticket oldTicket, Ticket updatedTicket) async {
+    if (oldTicket.id == null) {
+      // Handle the case when the id is null (you can throw an exception, return early, or show an error)
+      throw Exception("Ticket id is null. Cannot update ticket.");
+    }
+
     final database = Supabase.instance.client.from('tickets');
-    await database.update({
-      'userName': newUserName,
-      'location': newLocation,
-      'contact': newContact,
-      'issueDescription': newIssueDescription,
-      'status': newStatus,
-      'imageUrl': imageUrl,
-    }).eq('id', oldTicket.id!);
+
+    try {
+      await database.update({
+        'userName': updatedTicket.userName, // Update fields individually
+        'location': updatedTicket.location,
+        'contact': updatedTicket.contact,
+        'issueDescription': updatedTicket.issueDescription,
+        'emergency': updatedTicket.emergency,
+        'imageUrl': updatedTicket.imageUrl,
+      }).eq('id', oldTicket.id!); // Use the id safely after null check
+    } catch (e) {
+      // Handle any errors that occur during the update
+      throw Exception("Error updating ticket: $e");
+    }
   }
 }

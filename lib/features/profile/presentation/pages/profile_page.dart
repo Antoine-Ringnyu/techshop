@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:techrx/features/auth/data/supabase_auth_repo.dart';
 import 'package:techrx/features/auth/domain/entities/app_user.dart';
 import 'package:techrx/features/auth/presentation/components/my_button.dart';
+import 'package:techrx/features/profile/data/supabase_profile_repo.dart';
 import 'package:techrx/features/profile/presentation/components/circular_tag.dart';
 import 'package:techrx/features/profile/presentation/components/my_drawer.dart';
-import 'package:techrx/features/profile/presentation/components/recent_activity_tile.dart';
+import 'package:techrx/features/profile/presentation/components/recent_activity.dart';
 import 'package:techrx/features/ticket/presentation/pages/create_ticket.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -15,8 +16,11 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<ProfilePage> {
-  // get auth service
+  // get supabaseAuth repository
   final supabaseAuthRepo = SupabaseAuthRepo();
+
+  //get supabaseprofile repository
+  final supabaseProfileRepo = SupabaseProfileRepo();
 
   // current user data
   AppUser? currentUser;
@@ -209,32 +213,15 @@ class _HomePageState extends State<ProfilePage> {
               Text(
                 'MY RECENT ACTIVITY',
                 style: TextStyle(
-                    fontSize: 12,
+                    fontSize: 14,
                     color: Theme.of(context).colorScheme.secondary),
               ),
 
-              //divider
+              // divider
               Divider(
                 color: Colors.grey[400],
               ),
-              const SizedBox(height: 8),
-
-              // Adds space between sections
-              const RecentActivityTile(),
-              const SizedBox(height: 18),
-              Divider(
-                color: Colors.grey[400],
-              ),
-              const SizedBox(height: 8),
-              const RecentActivityTile(),
-              const SizedBox(height: 18),
-              Divider(
-                color: Colors.grey[400],
-              ),
-              const SizedBox(height: 8),
-              const RecentActivityTile(),
-
-              const SizedBox(height: 25),
+              RecentActivity(userId: currentUser?.uid)
             ],
           ),
         ),

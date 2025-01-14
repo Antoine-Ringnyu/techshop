@@ -5,7 +5,7 @@ import 'package:techrx/features/searchTickets/presentation/components/ticket_til
 import 'package:techrx/features/searchTickets/presentation/cubit/search_cubit.dart';
 import 'package:techrx/features/searchTickets/presentation/cubit/search_state.dart';
 import 'package:techrx/features/ticket/domain/entities/ticket.dart';
-import 'package:techrx/features/ticket/presentation/pages/ticket_page.dart';
+import 'package:techrx/features/ticket/presentation/pages/ticket_details.dart';
 
 class SearchTickets extends StatefulWidget {
   const SearchTickets({super.key});
@@ -194,7 +194,7 @@ class _SearchTicketsState extends State<SearchTickets> {
                     detailPage: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => TicketPage(
+                        builder: (context) => TicketDetails(
                           id: ticketData.id!,
                         ),
                       ),

@@ -8,11 +8,6 @@ abstract class TicketRepo {
   Stream<List<Ticket>> fetchTicket(int query);
   Future<void> updateTicket(
     Ticket oldTicket,
-    String newUserName,
-    String newLocation,
-    String newContact,
-    String newIssueDescription,
-    String? newStatus,
-    String? imageUrl,
+    Ticket updatedTicket
   );
 }

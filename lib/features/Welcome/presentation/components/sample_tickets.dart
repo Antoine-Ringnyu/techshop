@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:techrx/core/utils/ticket_utils.dart';
+import 'package:techrx/features/profile/presentation/components/recent_activity_tile.dart';
 import 'package:techrx/features/ticket/data/supaabase_ticket_repo.dart';
-import 'package:techrx/features/ticket/presentation/pages/ticket_page.dart';
+import 'package:techrx/features/ticket/presentation/pages/ticket_details.dart';
 
 class SampleTickets extends StatefulWidget {
-  const SampleTickets({super.key});
+  const SampleTickets({
+    super.key,
+  });
 
   @override
   State<SampleTickets> createState() => _SampleTicketsState();
@@ -12,20 +16,46 @@ class SampleTickets extends StatefulWidget {
 class _SampleTicketsState extends State<SampleTickets> {
   final supabaseTicketRepo =
       SupaabaseTicketRepo(); // Instance of TicketDb to access stream
+  final int contact = 652605131;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 250,
-      child: StreamBuilder(
-        // Listening to the stream from supabaeTicketRepo
-        stream: supabaseTicketRepo.stream,
+    return Container(
+      constraints: const BoxConstraints(
+          // maxHeight: 300,
+          ),
+      child: FutureBuilder(
+        // Listening to the stream from supabaseTicketRepo
+        future:
+            supabaseTicketRepo.fetchTicketByContactAndId(contact.toString()),
 
         // Building UI based on stream data
         builder: (context, snapshot) {
           // Show loading indicator while waiting for data
-          if (!snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
+          }
+
+          // If there's an error (e.g., no internet connection)
+          if (snapshot.hasError) {
+            return Center(
+              child: Text(
+                "Make sure you enable internet access",
+                style:
+                    TextStyle(color: Theme.of(context).colorScheme.secondary),
+              ),
+            );
+          }
+
+          // If no data is available (empty tickets)
+          if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(
+              child: Text(
+                "No tickets found. Please check your internet connection.",
+                style:
+                    TextStyle(color: Theme.of(context).colorScheme.secondary),
+              ),
+            );
           }
 
           // If data is loaded, display the tickets
@@ -34,74 +64,30 @@ class _SampleTicketsState extends State<SampleTickets> {
           // Display tickets in a ListView
           return ListView.builder(
             shrinkWrap: true,
-
             // Number of tickets
             itemCount: tickets.length,
             itemBuilder: (context, index) {
               // Each ticket in the list
               final ticket = tickets[index];
 
-              // Display each ticket's issue description
-              return Column(
-                children: [
-                  Divider(
-                    color: Colors.grey[400],
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .inversePrimary),
-                            borderRadius: BorderRadius.circular(8)),
-                        child: Icon(
-                          Icons.person,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 25,
-                      ),
-                      Expanded(
-                        child: ListTile(
-                          contentPadding:
-                              const EdgeInsets.all(0), // Ensures no padding
-                          horizontalTitleGap: 0, // Removes the horizontal gap
-                          minVerticalPadding: 0, // Removes vertical padding
-                          dense:
-                              true, // Makes the ListTile more compact by reducing height
-                          title: Text(ticket.userName),
-                          subtitle: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 4.0), // Add vertical padding to subtitle
-                            child: Text(ticket.issueDescription),
-                          ),
-                          titleTextStyle: TextStyle(
-                            color: Theme.of(context).colorScheme.secondary,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          subtitleTextStyle: TextStyle(
-                            color: Theme.of(context).colorScheme.secondary,
-                          ),
+              // Call the utility function to get the status and color
+              final status = getTicketStatusAndColor(ticket);
+              final statusColor = status['statusColor'];
 
-                          //..............the ontap function...............
-                          onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => TicketPage(id: ticket.id!),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+              // Display each ticket's issue description
+              return RecentActivityTile(
+                userName: ticket.userName,
+                userLocation: ticket.location,
+                issueDescription: ticket.issueDescription,
+                statusColor: statusColor,
+                detailPage: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => TicketDetails(
+                      id: ticket.id!,
+                    ),
                   ),
-                ],
+                ),
               );
             },
           );
