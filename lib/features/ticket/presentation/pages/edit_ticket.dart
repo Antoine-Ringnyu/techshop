@@ -3,8 +3,6 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:techrx/features/auth/data/supabase_auth_repo.dart';
-import 'package:techrx/features/auth/domain/entities/app_user.dart';
 import 'package:techrx/features/auth/presentation/components/my_button.dart';
 import 'package:techrx/features/storage/data/supabase_storage_repo.dart';
 import 'package:techrx/features/ticket/data/supaabase_ticket_repo.dart';
@@ -82,6 +80,39 @@ class _EditTicketState extends State<EditTicket> {
           .uploadImages(_images.map((e) => e!).toList());
     } catch (e) {
       throw Exception("Error uploading images: $e");
+    }
+  }
+
+  //show confirmation dialoge
+  Future<void> showConfirmationDialog() async {
+    bool? confirm = await showDialog<bool>(
+      context: context,
+      barrierDismissible: false, // Prevent dismissing by tapping outside
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirm Update'),
+          content: const Text('Are you sure you want to update this ticket?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(false); // User canceled
+              },
+              child: const Text('Cancel'),
+            ),
+            
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(true); // User confirmed
+              },
+              child: const Text('Confirm'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirm == true) {
+      await submit(); // Proceed with submitting the update
     }
   }
 
@@ -287,7 +318,7 @@ class _EditTicketState extends State<EditTicket> {
 
               // Submit button
               MyButton(
-                onTab: submit,
+                onTab: showConfirmationDialog,
                 text: "Update Ticket",
                 textColor: Theme.of(context).colorScheme.inversePrimary,
                 containerColor: Theme.of(context).colorScheme.tertiary,

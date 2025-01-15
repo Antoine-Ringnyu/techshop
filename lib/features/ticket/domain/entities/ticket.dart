@@ -1,3 +1,5 @@
+import 'package:techrx/features/ticket/domain/entities/comment.dart';
+
 class Ticket {
   int? id;
   String? userId;
@@ -8,17 +10,21 @@ class Ticket {
   bool emergency;
   String? status;
   String? imageUrl;
+  //list of comments
+  final List<Comment>? comments;
 
-  Ticket(
-      {this.id,
-      this.userId,
-      required this.userName,
-      required this.location,
-      required this.contact,
-      required this.issueDescription,
-      required this.emergency,
-      this.status,
-      this.imageUrl});
+  Ticket({
+    this.id,
+    this.userId,
+    required this.userName,
+    required this.location,
+    required this.contact,
+    required this.issueDescription,
+    required this.emergency,
+    this.status,
+    this.imageUrl,
+    this.comments,
+  });
 
   Ticket copywith({String? imageUrl}) {
     return Ticket(
@@ -30,6 +36,7 @@ class Ticket {
       emergency: emergency,
       status: status,
       imageUrl: imageUrl ?? this.imageUrl,
+      comments: comments
     );
   }
 
@@ -45,6 +52,7 @@ class Ticket {
       emergency: map['emergency'] as bool,
       status: map['status'] as String?,
       imageUrl: map['imageUrl'] as String?,
+      comments: map['comments'] as List<Comment>
     );
   }
 
@@ -59,6 +67,7 @@ class Ticket {
       'emergency': emergency,
       'status': status,
       'imageUrl': imageUrl,
+      'comments': comments,
     };
   }
 }

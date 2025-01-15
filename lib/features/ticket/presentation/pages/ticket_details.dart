@@ -246,9 +246,83 @@ class _TicketDetailsState extends State<TicketDetails> {
               SliverToBoxAdapter(
                 child: ClipRRect(
                   child: Container(
-                    padding: const EdgeInsets.all(30),
-                    height: 300,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 50),
+                    // height: 300,
                     color: Theme.of(context).colorScheme.inversePrimary,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        //icon
+                        Icon(
+                          Icons.person_4_outlined,
+                          size: 30,
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+
+                        const SizedBox(
+                          width: 25,
+                        ),
+
+                        //note
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              //technician name and category
+                              RichText(
+                                text: TextSpan(
+                                  style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary), // Default style for all text
+                                  children: <TextSpan>[
+                                    const TextSpan(
+                                      text: 'Kenneth N. Hervey',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: '  (technician)',
+                                      style: TextStyle(color: Colors.grey[500]),
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                              const SizedBox(
+                                height: 8,
+                              ),
+
+                              //technician's comment
+                              RichText(
+                                text: TextSpan(
+                                  style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary), // Default style for all text
+                                  children: const <TextSpan>[
+                                    TextSpan(
+                                      text: '@Martha',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text:
+                                          ' I\'m waithing for the delivery of a part i need to complete the fix',
+                                      style: TextStyle(),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
