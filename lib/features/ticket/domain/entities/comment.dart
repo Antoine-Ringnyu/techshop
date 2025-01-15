@@ -15,7 +15,7 @@ class Comment {
     required this.timestamp,
   });
 
-  //map -> ticket
+  //map -> comment
   factory Comment.fromMap(Map<String, dynamic> map) {
     return Comment(
       id: map['id'] as int,
@@ -27,7 +27,7 @@ class Comment {
     );
   }
 
-  //tickets -> map
+  //comment -> map
   Map<String, dynamic> toMap() {
     return {
       'id': id,

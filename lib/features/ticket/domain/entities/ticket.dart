@@ -11,7 +11,7 @@ class Ticket {
   String? status;
   String? imageUrl;
   //list of comments
-  final List<Comment>? comments;
+  final List<Comment> comments;
 
   Ticket({
     this.id,
@@ -23,7 +23,7 @@ class Ticket {
     required this.emergency,
     this.status,
     this.imageUrl,
-    this.comments,
+    required this.comments,
   });
 
   Ticket copywith({String? imageUrl}) {
@@ -67,7 +67,7 @@ class Ticket {
       'emergency': emergency,
       'status': status,
       'imageUrl': imageUrl,
-      'comments': comments,
+      'comments': comments.map((comment) => comment.toMap()).toList(),
     };
   }
 }
