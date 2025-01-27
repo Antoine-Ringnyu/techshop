@@ -99,7 +99,6 @@ class _EditTicketState extends State<EditTicket> {
               },
               child: const Text('Cancel'),
             ),
-            
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(true); // User confirmed
@@ -130,7 +129,8 @@ class _EditTicketState extends State<EditTicket> {
       contact: contactController.text,
       issueDescription: issueDescriptionController.text,
       emergency: _emergency,
-      imageUrl: imageUrls.join(','), // Store URLs as a comma-separated string
+      imageUrl: imageUrls.join(','),  // Store URLs as a comma-separated string
+      
     );
 
     await supabaseTicketRepo.updateTicket(updatedTicket, updatedTicket);

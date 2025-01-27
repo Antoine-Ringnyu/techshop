@@ -101,7 +101,7 @@ class _CreateTicketState extends State<CreateTicket> {
       contact: contactController.text,
       issueDescription: issueDescriptionController.text,
       emergency: _emergency,
-      imageUrl: imageUrls.join(','), // Store URLs as a comma-separated string
+      imageUrl: imageUrls.join(','),  // Store URLs as a comma-separated string
     );
 
     await supabaseTicketRepo.createTicket(newTicket);

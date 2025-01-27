@@ -5,9 +5,6 @@ abstract class TicketRepo {
   Future<void> createTicket(Ticket ticket);
   Future<void> deleteTicket(Ticket ticketId);
   Future<List<Ticket>> fetchTicketByContactAndId(String query);
-  Stream<List<Ticket>> fetchTicket(int query);
-  Future<void> updateTicket(
-    Ticket oldTicket,
-    Ticket updatedTicket
-  );
+  Stream<List<Ticket>> getTicketStream(int query);
+  Future<void> updateTicket(Ticket oldTicket, Ticket updatedTicket);
 }

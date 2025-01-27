@@ -9,7 +9,7 @@ class SupaabaseTicketRepo implements TicketRepo {
   //...................................all testings go in herr...................................
 
   @override
-  Stream<List<Ticket>> fetchTicket(int query) {
+  Stream<List<Ticket>> getTicketStream(int query) {
     return supabase
         .from('tickets')
         .stream(primaryKey: ['id']) // Listen for changes in the tickets table
